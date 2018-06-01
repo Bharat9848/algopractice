@@ -1,0 +1,5 @@
+Problem 1: Given a two-dimensional matrix of black and white entries representing a maze with designated entrance and exit
+points, find a path from the entrance to the exit, if one exists.
+
+Problem 2: How would you efficiently return an array A[O. . .h], where h is the height of the tree and A [i] is the
+head of a linked list of all the nodes in the tree that are at height i?

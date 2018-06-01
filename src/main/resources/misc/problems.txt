@@ -1,0 +1,5 @@
+1. Given the pair of numbers representing range of floors where two lifts will stop.Return the output pairs of floors where both the lift will stop.
+lift 1 : (1,1)(5,14)
+lift 2 : (1,10)(12,17)
+
+return (1,1) (5,10)(12,14)

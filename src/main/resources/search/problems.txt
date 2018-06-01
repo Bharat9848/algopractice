@@ -1,0 +1,5 @@
+1. Search a number in a sorted array recursively and iteratively.
+2. Given an sorted Array {a1,a2,a3...an} determine whether exist an element such that a(i) = i+1. Algo should work in log(n) time.
+for example in {-10,-3,3,5,7} a3=3
+3. Suppose that you are given a sorted sequence of sorted integers {a1,a2,a3...an},drawn from 1 to m where n < m. Give an O(lg(n))
+algo to find an integer <=m that is not present in a. for full credit find the smallest such integer.
