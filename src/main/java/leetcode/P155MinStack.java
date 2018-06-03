@@ -1,13 +1,12 @@
 package leetcode;
 
-import org.junit.Assert;
 import org.junit.Test;
 import util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
