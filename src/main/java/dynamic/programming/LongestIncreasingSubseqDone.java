@@ -10,12 +10,11 @@ import java.util.Arrays;
  * Its a DP Problem
  *
  * Write recursion formula
- * Lets say we name the noOfElementsLessThanIndex(int k)
+ * Lets say we name the noOfElementsLessThanIndex(int index)
  *
- * sol = max(forAllIndex(noOfElementsLessThanIndex(int k)))
+ * sol = max(forAllIndex(noOfElementsLessThanIndex(int index)))
  *
- *
- * noOfElementsLessThanIndex(int k) = max(max(noOfElementsLessThanIndex(i)+1),1) //Hardest Part in DP
+ * noOfElementsLessThanIndex(int k) = max(noOfElementsLessThanIndex(i)+1,1) //Hardest Part in DP
  * where 0<i<k and a[i]<a[k]
  *
  *
@@ -23,7 +22,7 @@ import java.util.Arrays;
  *
  * Created by bharat on 27/5/18.
  */
-public class LongestIncreasingSubseq {
+public class LongestIncreasingSubseqDone {
 
     int longIncreasingSubSeq(int[] numbers){
 
@@ -33,10 +32,11 @@ public class LongestIncreasingSubseq {
 
     private int longIncreasingSubSeqDP(int[] numbers) {
         int[] lis = new int[numbers.length];
+        //init
         for (int i = 0; i < lis.length; i++) {
             lis[i] = 1;
         }
-
+        //fill the memoization
         for (int i = 1; i <numbers.length ; i++) {
             for (int j = i-1; j >= 0 ; j--) {
                 if (lis[j] + 1 > lis[i] && numbers[j] < numbers[i]){
@@ -44,7 +44,8 @@ public class LongestIncreasingSubseq {
                 }
             }
         }
-        int max =1;
+        //find the winner
+        int max = 1;
         for (int i = 0; i < lis.length; i++) {
             if (max < lis[i]) {
                 max = lis[i];
