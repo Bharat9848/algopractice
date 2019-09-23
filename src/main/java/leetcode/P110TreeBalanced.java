@@ -15,7 +15,7 @@ import static java.lang.Math.abs;
  * Created by bharat on 8/4/18.
  */
 public class P110TreeBalanced {
-    class TreeNode {
+    private class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

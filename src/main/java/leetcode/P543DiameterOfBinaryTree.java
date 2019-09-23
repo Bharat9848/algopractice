@@ -23,7 +23,7 @@ import sun.reflect.generics.tree.Tree;
 import util.Pair;
 
 public class P543DiameterOfBinaryTree {
-    class TreeNode  {
+    private class TreeNode  {
         int val;
         TreeNode left;
         TreeNode right;
