@@ -18,4 +18,12 @@ public class PrintUtil {
             System.out.print(ele +", ");
         }
     }
+
+    private int[][] subArray(int[][] arr, int length) {
+        int[][] sub = new int[length][arr[0].length];
+        for (int i = 0; i < length; i++) {
+            sub[i] = arr[i];
+        }
+        return sub;
+    }
 }
