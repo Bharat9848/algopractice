@@ -19,7 +19,6 @@ package leetcode;
 
 import org.junit.Assert;
 import org.junit.Test;
-import sun.reflect.generics.tree.Tree;
 import util.Pair;
 
 public class P543DiameterOfBinaryTree {
