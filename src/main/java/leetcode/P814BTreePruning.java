@@ -1,8 +1,8 @@
 package leetcode;
 
 import core.ds.TreeNode;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import tree.TreePractice;
 
 /**We are given the head node root of a binary tree, where additionally every node's value is either a 0 or a 1.
@@ -45,7 +45,7 @@ public class P814BTreePruning {
         allzero.setRight( o);
         TreeNode c = new TreeNode(0);
         allzero.setLeft(c);
-        Assert.assertNull(pruneTree(allzero));
+        assertNull(pruneTree(allzero));
 
 
         //case 2

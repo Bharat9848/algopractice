@@ -1,7 +1,7 @@
 package leetcode;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * In a given integer array nums, there is always exactly one largest element.
@@ -34,8 +34,8 @@ public class P747LargeAtLeastTwice {
 
     @Test
     public void test(){
-        Assert.assertEquals(1,dominantIndex(new int[]{3, 6, 1, 0}));
-        Assert.assertEquals(-1,dominantIndex(new int[]{6, 6, 1, 0}));
-        Assert.assertEquals(-1,dominantIndex(new int[]{1, 2, 3, 4}));
+        assertEquals(1,dominantIndex(new int[]{3, 6, 1, 0}));
+        assertEquals(-1,dominantIndex(new int[]{6, 6, 1, 0}));
+        assertEquals(-1,dominantIndex(new int[]{1, 2, 3, 4}));
     }
 }

@@ -4,13 +4,22 @@ package util;
  * Created by bharat on 8/4/18.
  */
 public class Pair<K,V>{
-    final K first;
-    final V sec;
+    K first;
+    V sec;
 
     public Pair(K first, V sec) {
         this.first = first;
         this.sec = sec;
     }
+
+    public void setFirst(K first1){
+        this.first = first1;
+    }
+
+    public void setSec(V sec1){
+        this.sec = sec1;
+    }
+
 
     public K getFirst() {
         return first;

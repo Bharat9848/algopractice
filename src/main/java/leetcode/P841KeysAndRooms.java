@@ -1,7 +1,7 @@
 package leetcode;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -71,8 +71,8 @@ public class P841KeysAndRooms {
 
     @Test
     public void test(){
-        Assert.assertTrue(canVisitAllRooms(Arrays.asList(Arrays.asList(1),Arrays.asList(2),Arrays.asList(3), Collections.emptyList())));
-        Assert.assertFalse(canVisitAllRooms(Arrays.asList(Arrays.asList(1,3),Arrays.asList(3,0,1),Arrays.asList(2), Arrays.asList(0))));
-        Assert.assertTrue(canVisitAllRooms(Arrays.asList(Arrays.asList(2,3),Arrays.asList(),Arrays.asList(2), Arrays.asList(1,3,1))));
+        assertTrue(canVisitAllRooms(Arrays.asList(Arrays.asList(1),Arrays.asList(2),Arrays.asList(3), Collections.emptyList())));
+        assertFalse(canVisitAllRooms(Arrays.asList(Arrays.asList(1,3),Arrays.asList(3,0,1),Arrays.asList(2), Arrays.asList(0))));
+        assertTrue(canVisitAllRooms(Arrays.asList(Arrays.asList(2,3),Arrays.asList(),Arrays.asList(2), Arrays.asList(1,3,1))));
     }
 }

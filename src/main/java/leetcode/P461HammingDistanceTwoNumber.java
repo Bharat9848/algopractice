@@ -1,7 +1,7 @@
 package leetcode;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
@@ -37,8 +37,8 @@ public class P461HammingDistanceTwoNumber {
     }
     @Test
     public void test(){
-        Assert.assertEquals(2, hammingDistance(8,4));
-        Assert.assertEquals(24, hammingDistance(0x00FFFFFF,0));
+        assertEquals(2, hammingDistance(8,4));
+        assertEquals(24, hammingDistance(0x00FFFFFF,0));
     }
 
 }

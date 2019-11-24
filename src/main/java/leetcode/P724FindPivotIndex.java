@@ -1,7 +1,6 @@
 package leetcode;
-
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Given an array of integers nums, write a method that returns the "pivot" index of this array.
@@ -30,13 +29,13 @@ public class P724FindPivotIndex {
 
     @Test
     public void test(){
-        Assert.assertEquals(-1, pivotIndex(new int[]{1,2,3}));
-        Assert.assertEquals(1, pivotIndex(new int[]{3,2,3}));
-        Assert.assertEquals(3, pivotIndex(new int[]{1, 7, 3, 6, 5, 6}));
-        Assert.assertEquals(1, pivotIndex(new int[]{40, 7, 13, 7, 19, 1}));
-        Assert.assertEquals(-1, pivotIndex(new int[]{40, 7}));
-        Assert.assertEquals(2, pivotIndex(new int[]{-1, -1, -1,-1,-1,0}));
-        Assert.assertEquals(1, pivotIndex(new int[]{-1, -1, -1,-1,1,0}));
-        Assert.assertEquals(0, pivotIndex(new int[]{-1, -1, -1,0,1,1,0}));
+        assertEquals(-1, pivotIndex(new int[]{1,2,3}));
+        assertEquals(1, pivotIndex(new int[]{3,2,3}));
+        assertEquals(3, pivotIndex(new int[]{1, 7, 3, 6, 5, 6}));
+        assertEquals(1, pivotIndex(new int[]{40, 7, 13, 7, 19, 1}));
+        assertEquals(-1, pivotIndex(new int[]{40, 7}));
+        assertEquals(2, pivotIndex(new int[]{-1, -1, -1,-1,-1,0}));
+        assertEquals(1, pivotIndex(new int[]{-1, -1, -1,-1,1,0}));
+        assertEquals(0, pivotIndex(new int[]{-1, -1, -1,0,1,1,0}));
     }
 }

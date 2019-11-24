@@ -1,11 +1,9 @@
 package leetcode;
 
-import org.junit.Assert;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 
-import static org.junit.Assert.assertTrue;
 
 /*
 Given a collection of intervals, merge all overlapping intervals.
@@ -71,14 +69,14 @@ public class P56MergingInterval {
     @Test
     public void testEmptySingle(){
         assertTrue(merge(new int[0][]).length == 0);
-        Assert.assertArrayEquals(merge(new int[][]{{1,2}}), new int[][] {{1,2}});
+        assertArrayEquals(merge(new int[][]{{1,2}}), new int[][] {{1,2}});
     }
 
     @Test
     public void testEmbeddedInterval(){
-        Assert.assertArrayEquals(merge(new int[][]{{5,10},{6,7},{11,12}}), new int[][]{{5,10}, {11,12}});
-        Assert.assertArrayEquals(new int[][]{{1,6}, {8,10}, {15,18}}, merge(new int[][]{{1,3}, {2,6}, {8,10}, {15,18}}));
-        Assert.assertArrayEquals(new int[][]{{1,5}}, merge(new int[][]{{1,4}, {4, 5}}));
+        assertArrayEquals(merge(new int[][]{{5,10},{6,7},{11,12}}), new int[][]{{5,10}, {11,12}});
+        assertArrayEquals(new int[][]{{1,6}, {8,10}, {15,18}}, merge(new int[][]{{1,3}, {2,6}, {8,10}, {15,18}}));
+        assertArrayEquals(new int[][]{{1,5}}, merge(new int[][]{{1,4}, {4, 5}}));
 
     }
 

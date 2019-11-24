@@ -1,7 +1,7 @@
 package leetcode;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,12 +90,12 @@ public class P224BasicCal {
 
     @Test
     public void test(){
-        Assert.assertEquals(33,calculate("2 + 31"));
-        Assert.assertEquals(24,calculate("(2 + 3) +   19 "));
-        Assert.assertEquals(3,calculate("2-1 + 2 "));
-        Assert.assertEquals(23,calculate("(1+(4+5+2)-3)+(6+8)"));
-        Assert.assertEquals(7,calculate("(7) "));
-        Assert.assertEquals(0,calculate(" "));
+        assertEquals(33,calculate("2 + 31"));
+        assertEquals(24,calculate("(2 + 3) +   19 "));
+        assertEquals(3,calculate("2-1 + 2 "));
+        assertEquals(23,calculate("(1+(4+5+2)-3)+(6+8)"));
+        assertEquals(7,calculate("(7) "));
+        assertEquals(0,calculate(" "));
 
 
     }

@@ -1,7 +1,8 @@
 package leetcode;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Implement wildcard pattern matching with support for '?' and '*'.
@@ -81,14 +82,14 @@ public class P44WildCardMatchingTLE {
 
     @Test
     public void test(){
-        Assert.assertTrue(isMatch("a","a"));
-        Assert.assertFalse(isMatch("","a*"));
-        Assert.assertFalse(isMatch("a",""));
-        Assert.assertTrue(isMatch("aaaa","a*"));
-        Assert.assertTrue(isMatch("anadf","?*"));
-        Assert.assertFalse(isMatch("ab","a"));
-        Assert.assertTrue(isMatch("abbbbc","ab*bc"));
-        Assert.assertFalse(isMatch("aab", "c*a*b"));
-        Assert.assertTrue(isMatch("a","*a*"));
+        assertTrue(isMatch("a","a"));
+        assertFalse(isMatch("","a*"));
+        assertFalse(isMatch("a",""));
+        assertTrue(isMatch("aaaa","a*"));
+        assertTrue(isMatch("anadf","?*"));
+        assertFalse(isMatch("ab","a"));
+        assertTrue(isMatch("abbbbc","ab*bc"));
+        assertFalse(isMatch("aab", "c*a*b"));
+        assertTrue(isMatch("a","*a*"));
     }
 }

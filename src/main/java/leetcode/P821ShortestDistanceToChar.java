@@ -1,7 +1,7 @@
 package leetcode;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 
@@ -53,8 +53,8 @@ public class P821ShortestDistanceToChar {
 
     @Test
     public void test1(){
-        Assert.assertEquals(Arrays.toString(new int[]{3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0}),Arrays.toString(shortestToChar("loveleetcode",'e')));
-        Assert.assertEquals(Arrays.toString(new int[]{3, 2, 1, 0, 0}),Arrays.toString(shortestToChar("lovee",'e')));
-        Assert.assertEquals(Arrays.toString(new int[]{0, 1, 2, 3}),Arrays.toString(shortestToChar("elov",'e')));
+        assertEquals(Arrays.toString(new int[]{3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0}),Arrays.toString(shortestToChar("loveleetcode",'e')));
+        assertEquals(Arrays.toString(new int[]{3, 2, 1, 0, 0}),Arrays.toString(shortestToChar("lovee",'e')));
+        assertEquals(Arrays.toString(new int[]{0, 1, 2, 3}),Arrays.toString(shortestToChar("elov",'e')));
     }
 }

@@ -1,7 +1,6 @@
 package leetcode;
-
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -47,14 +46,14 @@ public class P754ReachANumber {
 
     @Test
     public void test(){
-        Assert.assertEquals(4,reachNumber(10));
-        Assert.assertEquals(2,reachNumber(3));
-        Assert.assertEquals(3,reachNumber(2));
-        Assert.assertEquals(5,reachNumber(11));
-        Assert.assertEquals(7,reachNumber(12));
-        Assert.assertEquals(5,reachNumber(13));
-        Assert.assertEquals(7,reachNumber(14));
-        Assert.assertEquals(5,reachNumber(15));
+        assertEquals(4,reachNumber(10));
+        assertEquals(2,reachNumber(3));
+        assertEquals(3,reachNumber(2));
+        assertEquals(5,reachNumber(11));
+        assertEquals(7,reachNumber(12));
+        assertEquals(5,reachNumber(13));
+        assertEquals(7,reachNumber(14));
+        assertEquals(5,reachNumber(15));
         System.out.println(reachNumber(-1000000000));
     }
 }
