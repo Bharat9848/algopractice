@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  4     1 4 6 4 1
  5     1 5 10 5 1
  */
-public class BinomialCoefficientNotDone {
+public class BinomialCoefficientDone {
     public int calculateNormalRecursion(int n, int k){
         if(n == k || n == 0 || k ==0 ) return 1;
         return calculateNormalRecursion( n-1, k-1) + calculateNormalRecursion(n-1, k);
