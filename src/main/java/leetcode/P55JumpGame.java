@@ -25,6 +25,10 @@ Output: false
 Explanation: You will always arrive at index 3 no matter what. Its maximum
              jump length is 0, which makes it impossible to reach the last index.
 
+Algo: at position i we need to find that its reachable and if its reachable we need to find all the position that can be reached from the position.
+Q1: how to find if position is reachable -> go iteratively from position zero and mark the position reachable in auxillary array.
+Technique is Dynamic programming
+
 
  */
 public class P55JumpGame {
@@ -41,8 +45,8 @@ public class P55JumpGame {
             if(!reachable[i]){
                 continue;
             }
-            for (int j = 1; i + j < nums.length && j <= nums[i]; j++) {
-                reachable[i + j] = true;
+            for (int jump = 1; i + jump < nums.length && jump <= nums[i]; jump++) {
+                reachable[i + jump] = true;
             }
         }
         return reachable[nums.length - 1];
