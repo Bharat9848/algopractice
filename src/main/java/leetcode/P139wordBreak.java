@@ -1,7 +1,8 @@
 package leetcode;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,12 +32,12 @@ Example 3:
 
 Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output: false
-
+Algo: at each index we will decrements from that index-1 till 0 to check if memoization solution exist for the prefix(0, interationindex) and lookup the suffix(iterationIndex+1, index) in wordDict.
 
  */
-public class P139wordBreakTLE {
+public class P139wordBreak {
 
-    public boolean wordBreakRecursiveWoutMemoization(String s, List<String> wordDict) {
+    boolean wordBreakRecursiveWoutMemoization(String s, List<String> wordDict) {
         if(s.isEmpty()){return true;}
 
         for(int len = s.length(); len > 0; len--){
@@ -51,7 +52,7 @@ public class P139wordBreakTLE {
         return s.substring(s.length() -len);
     }
 
-    public boolean wordBreak(String s, List<String> wordDict){
+    boolean wordBreakTLE(String s, List<String> wordDict){
         boolean[][] indexTolength = initMemoizaionGraph(s.length());
         for (int index = 0; index < s.length(); index++) {
             for (int length = 1; length <= index+1; length++) {
@@ -87,14 +88,30 @@ public class P139wordBreakTLE {
         return indexToLength;
     }
 
-    @Test
-    public void testEdgeCases(){
-        Assert.assertTrue(wordBreakRecursiveWoutMemoization("ateatbay", Arrays.asList("eat", "at","a", "bay")));
-        Assert.assertTrue(wordBreak("ateatbay", Arrays.asList("eat", "at","a", "bay")));
-        Assert.assertTrue(wordBreakRecursiveWoutMemoization("atthegate", Arrays.asList("eat", "at","a", "bay", "gate", "the")));
-        Assert.assertTrue(wordBreak("atthegate", Arrays.asList("eat", "at","a", "bay", "gate", "the")));
-        Assert.assertFalse(wordBreak("catsandog", Arrays.asList("cats", "sand","and", "cat", "dog")));
-        Assert.assertTrue(wordBreak("a", Arrays.asList("a", "sand","and", "cat", "dog")));
-        Assert.assertFalse(wordBreak("aaaaaaa", Arrays.asList("aaaa", "aa")));
+    boolean wordBreak(String s, List<String> wordDict){
+      boolean[] solution = new boolean[s.length()+1];
+      solution[0] = true;//represent empty string
+        for (int pos = 1; pos <= s.length(); pos++) {
+            for (int j = pos-1; j >= 0 ; j--) {
+                if(solution[j] && wordDict.contains(s.substring(j, pos))){
+                    solution[pos] = true;
+                    break;
+                }
+            }
+        }
+//        System.out.println(Arrays.toString(solution));
+      return solution[s.length()];
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "ab, a:b, true",
+            "ateatbay, eat:at:a:bay, true",
+            "atthegate, eat:at:a:bay:gate:the, true",
+            "catsandog, cats:sand:and:cat:dog, false",
+            "a, cats:sand:and:cat:dog:a, true",
+            "aaaaaaa, aaaa:aa,false" })
+    void testEdgeCases(String s, String wordList, String sol){
+        Assert.assertEquals(Boolean.valueOf(sol), wordBreak(s, Arrays.asList(wordList.trim().split(":"))));
     }
 }
