@@ -2,7 +2,7 @@ package leetcode;
 
 import org.junit.Assert;
 import org.junit.Test;
-import sort.SortPractice;
+import sort.QuickSort;
 
 /**
  * Given a non-empty integer array, find the minimum number of moves required to make all array elements equal, where a move is incrementing a selected element by 1 or decrementing a selected element by 1.
@@ -32,7 +32,7 @@ import sort.SortPractice;
  */
 public class P462MinMovEqArray {
     public int minMoves2(int[] nums) {
-       int[] sortedArr = SortPractice.quickSort(nums);
+       int[] sortedArr = QuickSort.quickSort(nums);
        int medianIndex = (sortedArr.length - 1)/2;
        int result = 0;
         for (int i = 0; i < sortedArr.length; i++) {

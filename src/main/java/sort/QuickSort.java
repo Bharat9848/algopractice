@@ -6,9 +6,10 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
+ * quick sort is not stable. Given two string which are equal, then after sorting their order might switch.
  * Created by bharat on 10/5/18.
  */
-public class SortPractice {
+public class QuickSort {
 
     public static int[] quickSort(int[] arr){
         return quickSort(arr,0,arr.length-1);
@@ -23,22 +24,18 @@ public class SortPractice {
         return arr;
     }
 
-    private static int pivotLocation(int[] arr,int pivot,int left, int right){
-        while (left < right) {
-            if(arr[left]<arr[pivot]){
+    private static int pivotLocation(int[] arr, int pivot, int left, int right) {
+        while (left <= right) {
+            if (arr[left] < arr[pivot]) {
                 left++;
-            }else{
-                swap(arr,left,right);
+            } else {
+                swap(arr, left, right);
                 right--;
             }
         }
-        if(arr[left]<arr[pivot]){
-            swap(arr,left,pivot);
-            return left;
-        }else {
-            swap(arr,left-1,pivot);
-            return left - 1;
-        }
+        swap(arr, left - 1, pivot);
+        return left - 1;
+
     }
 
     private static void swap(int[] arr, int left, int right) {
