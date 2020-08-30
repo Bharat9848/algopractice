@@ -53,7 +53,7 @@ public class P23MergeKSortingList {
           }
       }
 
-    public ListNode mergeKLists(ListNode[] lists) {
+      ListNode mergeKLists(ListNode[] lists) {
           ListNode result = null;
           if(lists.length == 0) return result;
           if(lists.length == 1) return lists[0];
