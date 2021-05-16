@@ -36,11 +36,11 @@ public class P112PathSum {
       TreeNode(int x) { val = x; }
   }
 
-    public boolean hasPathSum(TreeNode root, int sum) {
+     boolean hasPathSum(TreeNode root, int sum) {
         if(root==null){
             return false;
         }
-        List<Pair<TreeNode,Integer>> queue = new ArrayList<>();
+        List<Pair<TreeNode, Integer>> queue = new ArrayList<>();
         queue.add(new Pair<>(root,sum));
         List<Pair<TreeNode,Integer>> next = new ArrayList<>();
         boolean found = false;
@@ -67,7 +67,7 @@ public class P112PathSum {
         return found;
     }
 
-    public boolean hasPathSumRec(TreeNode root, int sum) {
+    boolean hasPathSumRec(TreeNode root, int sum) {
         if(root==null && sum == 0){
             return true;
         }
