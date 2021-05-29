@@ -1,7 +1,10 @@
 package core.ds;
 
-import java.util.List;
-import java.util.Random;
+import com.sun.source.tree.Tree;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -52,4 +55,49 @@ public class TreeNode {
         return root;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TreeNode treeNode = (TreeNode) o;
+        return val.equals(treeNode.val) && ((left == null && ((TreeNode) o).left == null) || (left != null && treeNode.left != null && left.equals(treeNode.left))) && ((right == null && ((TreeNode) o).right == null) || (right != null && treeNode.right != null && right.equals(treeNode.right)));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(val, left, right);
+    }
+
+    public static TreeNode createTreeFromStringArr(String treeStr){
+        List<TreeNode> treeNodes = Arrays.stream(treeStr.split(",")).map(str -> {
+            if ("null".equals(str)) return new TreeNode(-1);
+            else return new TreeNode(Integer.parseInt(str));
+        }).collect(Collectors.toList());
+        return createTree(treeNodes);
+    }
+
+    private static TreeNode createTree(List<TreeNode> treeNodes) {
+        TreeNode root = treeNodes.remove(0), currParent;
+        List<TreeNode> queue = new ArrayList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            currParent = queue.remove(0);
+            TreeNode temp;
+            if (!treeNodes.isEmpty()) {
+                temp = treeNodes.remove(0);
+                if (temp.val != -1) {
+                    currParent.left = temp;
+                    queue.add(temp);
+                }
+            }
+            if (!treeNodes.isEmpty()) {
+                temp = treeNodes.remove(0);
+                if (temp.val != -1) {
+                    currParent.right = temp;
+                    queue.add(temp);
+                }
+            }
+        }
+        return root;
+    }
 }
