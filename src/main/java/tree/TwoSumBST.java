@@ -65,7 +65,7 @@ public class TwoSumBST {
 }
 
 class MyRevIterator implements Iterator<Node>{
-    List<Node> l = new ArrayList();
+    List<Node> l = new ArrayList<>();
     public MyRevIterator(Node root) {
         Node temp = root;
         while (temp != null) {

@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,6 +12,14 @@ public class PrintUtil {
         for (T ele : arr) {
             System.out.print(ele +", ");
         }
+    }
+
+    public static String printArray(int[][] arr){
+        StringBuilder sb = new StringBuilder();
+        for (int[] ele : arr) {
+            sb.append(Arrays.toString(ele)).append("\n");
+        }
+        return sb.toString();
     }
 
     public static <T> void printList(List<T> list) {

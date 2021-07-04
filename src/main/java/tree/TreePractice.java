@@ -12,10 +12,11 @@ import java.util.Map;
  */
 public class TreePractice {
 // Level order traversal
-    public static String levelOrderTraversal(TreeNode treeNode) {
+// explanation using queue put children repeatedly until queue is empty.
+    public static String levelOrderTraversal(TreeNode root) {
         StringBuilder sb = new StringBuilder();
         List<TreeNode> queue = new ArrayList<>();
-        queue.add(treeNode);
+        queue.add(root);
         while (!queue.isEmpty()) {
             TreeNode tn = queue.remove(0);
             if (tn.getVal() == null) {
@@ -40,13 +41,14 @@ public class TreePractice {
         return sb.toString();
     }
 // print binary tree vertically
+// explanation have a map with levelScale like -2 -1 0 1 2 each level will contain list of nodes
 
     static void printBinaryTreeVertical(TreeNode treeNode){
         Map<Integer, List<Integer>> levelToValue = new HashMap<>();
         genVerticalMap(treeNode, 0, levelToValue);
         levelToValue.entrySet()
                 .stream()
-                .sorted((x, y) -> x.getKey() < y.getKey()?-1 : 1)
+                .sorted((x, y) -> x.getKey() < y.getKey() ? -1 : 1)
                 .forEach( x -> System.out.println(x.getValue()));
     }
 
@@ -61,7 +63,7 @@ public class TreePractice {
         genVerticalMap(treeNode.getRight(), level+1, levelToValue);
     }
 
-    public static void mainTestVerticalPrint(String[] args) {
+    public static void main(String[] args) {
         TreeNode root = TreeExample.treeBalanced9Nodes();
         printBinaryTreeVertical(root);
     }
