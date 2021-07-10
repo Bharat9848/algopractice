@@ -6,9 +6,9 @@ import org.junit.Test;
 /**
  * Created by bharat on 27/5/18.
  */
-public class P83RemoveDuplicateSortedLinkList {
+class P83RemoveDuplicateSortedLinkList {
 
-    public class ListNode {
+    private class ListNode {
    int val;
       ListNode next;
       ListNode(int x) { val = x; }

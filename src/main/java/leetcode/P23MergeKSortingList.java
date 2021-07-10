@@ -28,7 +28,7 @@ Output: 1->1->2->3->4->4->5->6
  */
 public class P23MergeKSortingList {
 
-      public class ListNode {
+      private class ListNode {
           int val;
           ListNode next;
           ListNode(int x) { val = x; }

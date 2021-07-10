@@ -33,6 +33,7 @@ import java.util.Arrays;
  * <p>
  * 1 <= nums.length <= 3 * 104
  * -105 <= nums[i] <= 105
+ *
  * <p>
  * at a particular i sum can be either sum(Nums[3...6]) & sumContigAt(0..6 ) & nums[6] & sum(0,1)
  */
