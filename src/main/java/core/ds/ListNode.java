@@ -8,9 +8,9 @@ import java.util.Objects;
  */
 public class ListNode {
     public ListNode next;
-    public int value;
+    public int val;
     public ListNode(int val){
-        this.value = val;
+        this.val = val;
     }
 
     public static ListNode createListFromStr(String commaSepStr) {
@@ -36,7 +36,7 @@ public class ListNode {
         ListNode temp = head;
         StringBuilder str = new StringBuilder("");
         while (temp!=null){
-            str.append(temp.value).append("====>");
+            str.append(temp.val).append("====>");
             temp = temp.next;
         }
         str.append("null");
@@ -59,7 +59,7 @@ public class ListNode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListNode listNode = (ListNode) o;
-        return value == listNode.value &&
+        return val == listNode.val &&
                 Objects.equals(next, listNode.next);
     }
 
@@ -69,6 +69,6 @@ public class ListNode {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(next, value);
+        return Objects.hash(next, val);
     }
 }
