@@ -28,7 +28,7 @@ Given a binary tree and a particular node, find all cousins of that node.
         if false then add all the nodes in the queue
     3. after #2 with its true condition is reached then all the other nodes in the queues are cousin.
  */
-public class BinaryTreeCousin {
+class BinaryTreeCousin {
     List<Integer> cousinOfNode(TreeNode root, TreeNode node) {
         if (root.val.equals(node.val)) return new ArrayList<>();
         List<TreeNode> level = new LinkedList<>();

@@ -33,7 +33,7 @@ The number of edges in the graph will not exceed 32000.
 Each graph[i] will be a sorted list of different integers, chosen within the range [0, graph.length - 1].
  */
 public class P802FindEventualSafeStates {
-    enum DiscoverEnum{
+    private enum DiscoverEnum{
         EXPLORED, DISCOVERED, UNDISCOVERED
     }
     enum TerminalStatus {

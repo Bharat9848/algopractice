@@ -15,8 +15,8 @@ public class Anagram {
 
     Set<String> findAnagram(String str) {
         return IntStream.range(0, str.length())
-                .mapToObj(index -> new Pair<Character, String>(Character.valueOf(str.charAt(index)), cutCharAtIndex(str, index)))
-                .map(p -> new Pair<Character, Set<String>>(p.getFirst(), findAnagramSubString(p.getSec())))
+                .mapToObj(index -> new Pair<>(str.charAt(index), cutCharAtIndex(str, index)))
+                .map(p -> new Pair<>(p.getFirst(), findAnagramSubString(p.getSec())))
                 .flatMap(p -> p.getSec().stream().map(s -> prependIndex(s, p.getFirst())).collect(Collectors.toSet()).stream())
                 .collect(Collectors.toSet());
     }
@@ -53,6 +53,13 @@ public class Anagram {
     @Test
     public void testNormalString(){
         System.out.println(findAnagram("abcde"));
-        Assert.assertTrue(findAnagram("eat").equals(new HashSet<>(){{add("eat"); add("ate"); add("tea"); add("aet"); add("eta"); add("tae");}}));
+        Assert.assertEquals(findAnagram("eat"), new HashSet<>() {{
+            add("eat");
+            add("ate");
+            add("tea");
+            add("aet");
+            add("eta");
+            add("tae");
+        }});
     }
 }

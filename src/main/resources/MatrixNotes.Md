@@ -1,0 +1,1 @@
+1. Matrix cell can be sequenced from 0,1,2,etc (NOT 1,2,3,4) and from a cell number we can do reverse calculation to (row, col) using (cellNo/nCol, cellNo-(cellNo/nCol)) 

@@ -1,11 +1,10 @@
-package Skiena;
+package Skiena.chapter3;
 
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import util.Pair;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;

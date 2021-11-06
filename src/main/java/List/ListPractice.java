@@ -12,70 +12,70 @@ import static core.ds.ListNode.createSeqIntList;
  */
 public class ListPractice {
 
-    public static <T> ListNode<T> problem1ReverseIterative(ListNode<T> head){
+    public static  ListNode problem1ReverseIterative(ListNode head){
         Objects.nonNull(head);
-        ListNode<T> temp1 = null;
-        ListNode<T> temp2 = head;
-        ListNode<T> temp3;
+        ListNode temp1 = null;
+        ListNode temp2 = head;
+        ListNode temp3;
         while (temp2 != null){
-            temp3 = temp2.getNext();
-            temp2.setNext(temp1);
+            temp3 = temp2.next;
+            temp2.next = temp1;
             temp1 = temp2;
             temp2 = temp3;
         }
         return temp1;
     }
 
-    public static <T> ListNode<T> problem2ReverseRecursive(ListNode<T> node){
+    public static  ListNode problem2ReverseRecursive(ListNode node){
         Objects.nonNull(node);
-        if(node.getNext()==null){
+        if(node.next ==null){
             return node;
         }
-        ListNode<T> head = problem2ReverseRecursive(node.getNext());
-        node.getNext().setNext(node);
-        node.setNext(null);
+        ListNode head = problem2ReverseRecursive(node.next);
+        node.next.next = node;
+        node.next = null;
         return head;
     }
 
     @Test
     public void testReverseIterative(){
-        ListNode<Integer> n1 = createSeqIntList(5);
+        ListNode n1 = createSeqIntList(5);
         System.out.println(ListNode.print(n1));
-        ListNode<Integer> reverseList = ListPractice.problem1ReverseIterative(n1);
+        ListNode reverseList = ListPractice.problem1ReverseIterative(n1);
         System.out.println(ListNode.print(reverseList));
 
     }
     @Test
     public void testReverseRecursive(){
-        ListNode<Integer> n1 = createSeqIntList(5);
+        ListNode n1 = createSeqIntList(5);
         System.out.println(ListNode.print(n1));
-        ListNode<Integer> reverseList = ListPractice.problem2ReverseRecursive(n1);
+        ListNode reverseList = ListPractice.problem2ReverseRecursive(n1);
         System.out.println(ListNode.print(reverseList));
 
     }
 
-    public static <T> ListNode<T> P3ReverseLinklistInKpairs(ListNode<T> head, int k) {
-        ListNode<T> prevLast = null;
-        ListNode<T> tempStart = head;
-        ListNode<T> tempEnd = head;
-        ListNode<T> nextStart;
-        ListNode<T> newHead = null;
+    public static  ListNode P3ReverseLinklistInKpairs(ListNode head, int k) {
+        ListNode prevLast = null;
+        ListNode tempStart = head;
+        ListNode tempEnd = head;
+        ListNode nextStart;
+        ListNode newHead = null;
         while (tempEnd != null) {
             for (int i = 0; i < k-1 && tempEnd != null; i++) {
-                tempEnd = tempEnd.getNext();
+                tempEnd = tempEnd.next;
             }
             if (tempEnd == null) {
                 break;
             } else {
-                nextStart = tempEnd.getNext();
-                tempEnd.setNext(null);
+                nextStart = tempEnd.next;
+                tempEnd.next = (null);
                 if (prevLast != null) {
-                    prevLast.setNext(null);
-                    prevLast.setNext(problem2ReverseRecursive(tempStart));
+                    prevLast.next = (null);
+                    prevLast.next = (problem2ReverseRecursive(tempStart));
                 }else{
                     newHead = problem2ReverseRecursive(tempStart);
                 }
-                tempStart.setNext(nextStart);
+                tempStart.next = (nextStart);
 
                 prevLast = tempStart;
                 tempStart = nextStart;
@@ -91,30 +91,30 @@ public class ListPractice {
 
     @Test
     public void testReverseLinklistInKPairs(){
-        ListNode<Integer> n1 = createSeqIntList(4);
+        ListNode n1 = createSeqIntList(4);
         System.out.println(ListNode.print(n1));
-        ListNode<Integer> reverseList = ListPractice.P3ReverseLinklistInKpairs(n1,9);
+        ListNode reverseList = ListPractice.P3ReverseLinklistInKpairs(n1,9);
         System.out.println(ListNode.print(reverseList));
     }
 
-    public static <T> ListNode<T> swapKthNodeFromStartAndLast(ListNode<T> head, int k){
-        ListNode<T> kEndPrev=null,kEndNext,temp,kEnd = head;
-        ListNode<T> kstartPrev=head,kStartNext,kStart = head;
+    public static  ListNode swapKthNodeFromStartAndLast(ListNode head, int k){
+        ListNode kEndPrev=null,kEndNext,temp,kEnd = head;
+        ListNode kstartPrev=head,kStartNext,kStart = head;
         for (int i = 0; i < k - 1 && kStart!=null; i++) {
             kstartPrev = kStart;
-            kStart = kStart.getNext();
+            kStart = kStart.next;
         }
         if(kStart==null){
             return head;
         }else{
             temp=kStart;
-            while(temp.getNext()!=null){
+            while(temp.next!=null){
                 kEndPrev = kEnd;
-                kEnd = kEnd.getNext();
-                temp = temp.getNext();
+                kEnd = kEnd.next;
+                temp = temp.next;
             }
-            kEndNext = kEnd.getNext();
-            kStartNext = kStart.getNext();
+            kEndNext = kEnd.next;
+            kStartNext = kStart.next;
 
             if(k==1){
                 head = kEnd;
@@ -124,26 +124,26 @@ public class ListPractice {
                 return head;
             }
             if(kStart==kEndPrev){
-                kstartPrev.setNext(null);
-                kStart.setNext(null);
-                kEnd.setNext(null);
-                kstartPrev.setNext(kEnd);
-                kEnd.setNext(kStart);
-                kStart.setNext(kEndNext);
+                kstartPrev.next=(null);
+                kStart.next=(null);
+                kEnd.next=(null);
+                kstartPrev.next=(kEnd);
+                kEnd.next=(kStart);
+                kStart.next=(kEndNext);
             }else {
-                kEndPrev.setNext(null);
+                kEndPrev.next=(null);
 
-                kEnd.setNext(null);
+                kEnd.next=(null);
                 if(kstartPrev!=null)
-                    kstartPrev.setNext(null);
-                kStart.setNext(null);
+                    kstartPrev.next=(null);
+                kStart.next=(null);
 
                 if(kstartPrev!=null)
-                    kstartPrev.setNext(kEnd);
-                kEnd.setNext(kStartNext);
+                    kstartPrev.next=(kEnd);
+                kEnd.next=(kStartNext);
 
-                kEndPrev.setNext(kStart);
-                kStart.setNext(kEndNext);
+                kEndPrev.next=(kStart);
+                kStart.next=(kEndNext);
             }
         }
         return head;
@@ -151,9 +151,9 @@ public class ListPractice {
 
     @Test
     public void testSwapKStartAndEnd(){
-        ListNode<Integer> n1 = createSeqIntList(10);
+        ListNode n1 = createSeqIntList(10);
         System.out.println(ListNode.print(n1));
-        ListNode<Integer> reverseList = ListPractice.swapKthNodeFromStartAndLast(n1,5);
+        ListNode reverseList = ListPractice.swapKthNodeFromStartAndLast(n1,5);
         System.out.println(ListNode.print(reverseList));
     }
 }
