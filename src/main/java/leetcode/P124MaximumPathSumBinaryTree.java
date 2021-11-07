@@ -32,6 +32,16 @@ Explanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 
     The number of nodes in the tree is in the range [1, 3 * 104].
     -1000 <= Node.val <= 1000
 
+    1.MaxSum can be contiguous ot non contiguous
+    2. at particular node contiguous sum is max(max(node.val +  contiguous of Left Subtree), (node.val + contiguous of right subtree), root.val);
+    3. at particular node in non-contiguous sum  is max of following
+    a. Contiguous of Left Subtree + contiguous of right Subtree + node.val
+    b. left non-contiguous sum
+    c. right non-contiguous sum
+    d. left node val
+    e. right node val
+    f. left contiguous
+    g. right contiguous
  */
 class P124MaximumPathSumBinaryTree {
 
@@ -50,6 +60,7 @@ class P124MaximumPathSumBinaryTree {
         int contiguousSumLeft = sumLeft.getKey()==Integer.MIN_VALUE?0:sumLeft.getKey();
         int contiguousSumRight = sumRight.getKey()==Integer.MIN_VALUE?0:sumRight.getKey();
         int currentContiguousSum = Math.max(root.val, Math.max(contiguousSumLeft + root.val, contiguousSumRight + root.val));
+
         int currentNonContiguousSum = Math.max(Math.max(Math.max(Math.max(Math.max(Math.max(contiguousSumLeft + root.val + contiguousSumRight, root.left != null? root.left.val: Integer.MIN_VALUE), root.right != null? root.right.val : Integer.MIN_VALUE), sumLeft.getValue()), sumRight.getValue()), sumLeft.getKey()), sumRight.getKey());
         return new AbstractMap.SimpleEntry<>(currentContiguousSum, currentNonContiguousSum);
     }
