@@ -120,7 +120,7 @@ public class P23MergeKSortingList {
         return IntStream.range(0, lists.length).boxed().collect(supplier, accumulator, combiner);
     }
 
-    class Pair<K,V>{
+    private class Pair<K,V>{
         final K first;
         final V sec;
 
