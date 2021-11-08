@@ -24,6 +24,8 @@ import java.util.Arrays;
  * Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
  * Output: false
  *
+ * [2,null,3,null,4,null,5,null,6]
+ *
  *
  *
  * Constraints:
@@ -38,6 +40,32 @@ import java.util.Arrays;
  */
 
 public class P240Search2DMatrixII {
+
+    public boolean searchMatrixOptimized(int[][] matrix, int target) {
+        if (matrix == null) {
+            return false;
+        }
+
+        int rows = matrix.length;
+        int columns = matrix[0].length;
+        int currentRow = rows - 1;
+        int currentColumn = 0;
+
+        while (currentRow >= 0 && currentColumn < columns) {
+            int value = matrix[currentRow][currentColumn];
+            if (value == target) {
+                return true;
+            }
+            else if (value < target) {
+                currentColumn++;
+            }
+            else {
+                currentRow--;
+            }
+        }
+        return false;
+    }
+
     public boolean searchMatrix(int[][] matrix, int target) {
         boolean found = false;
         for (int i = 0; i < matrix.length && !found; i++) {
