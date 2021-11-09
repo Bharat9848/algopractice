@@ -1,7 +1,9 @@
 package leetcode;
 
+import core.ds.TreeNode;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -28,13 +30,6 @@ import java.util.List;
  .
  */
 public class P112PathSum {
-
-    private class TreeNode {
-    int val;
-      TreeNode left;
-      TreeNode right;
-      TreeNode(int x) { val = x; }
-  }
 
      boolean hasPathSum(TreeNode root, int sum) {
         if(root==null){
@@ -68,24 +63,34 @@ public class P112PathSum {
     }
 
     boolean hasPathSumRec(TreeNode root, int sum) {
-        if(root==null && sum == 0){
-            return true;
+         if(root == null){
+             return false;
+         }
+        if(root.right == null && root.left == null){
+            return sum == root.val;
         }
-        if(root==null && sum != 0){
-            return false;
+        boolean found  = false;
+        if(root.right!=null){
+            found = found | hasPathSumRec(root.right, sum - root.val);
         }
-        return (hasPathSumRec(root.left,sum - root.val) || hasPathSumRec(root.right,sum - root.val));
+        if(root.left!=null){
+            found =  found | hasPathSumRec(root.left, sum - root.val);
+        }
+
+        return found;
     }
 
-    @Test
-    public void test1(){
-
-        TreeNode root = new TreeNode(5);
-        TreeNode leftR = new TreeNode(9);
-        TreeNode leftLR = new TreeNode(9);
-        root.left = leftR;
-        leftR.left = leftLR;
-        Assert.assertTrue(hasPathSumRec(root,23));
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "5|5|true",
+            "5,0,9|5|true",
+            "5|6|false",
+            "5|0|false",
+            "5,4,8,11,null,13,4,7,2,null,null,null,1|22|true",
+            "5,9,null,9,null|23|true"
+    })
+    void test1(String treeStr, int target, boolean expected){
+        Assert.assertEquals(expected, hasPathSumRec(TreeNode.createTreeFromStringArr(treeStr), target));
     }
 
 }
