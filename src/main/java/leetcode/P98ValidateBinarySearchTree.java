@@ -1,7 +1,7 @@
 package leetcode;
 
+import core.ds.TreeNode;
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -35,15 +35,10 @@ Constraints:
     -231 <= Node.val <= 231 - 1
 
  */
-public class P98ValidateBinarySearchTree {
-    private class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
+class P98ValidateBinarySearchTree {
 
-    public boolean isValidBST(TreeNode root) {
+
+    boolean isValidBST(TreeNode root) {
         if(root == null){
             return true;
         }

@@ -132,7 +132,7 @@ public class P1451ArrangeWordInSentence {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            P23MergeKSortingList.Pair<?, ?> pair = (P23MergeKSortingList.Pair<?, ?>) o;
+            Pair<?, ?> pair = (Pair<?, ?>) o;
 
             if (!first.equals(pair.first)) return false;
             return sec.equals(pair.sec);
