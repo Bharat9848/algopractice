@@ -21,55 +21,18 @@ Note:
  */
 
 import org.junit.jupiter.api.Test;
+import util.Pair;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class P49GroupAnagram {
+class P49GroupAnagram {
 
-    class Pair<K,V>{
-        final K first;
-        final V sec;
 
-        public Pair(K first, V sec) {
-            this.first = first;
-            this.sec = sec;
-        }
-
-        public K getFirst() {
-            return first;
-        }
-
-        public V getSec() {
-            return sec;
-        }
-
-        public String toString(){
-            return "("+first+ ", " + sec +")";
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Pair<?, ?> pair = (Pair<?, ?>) o;
-
-            if (!first.equals(pair.getFirst())) return false;
-            return sec.equals(pair.getSec());
-        }
-
-        @Override
-        public int hashCode() {
-            int result = first.hashCode();
-            result = 31 * result + sec.hashCode();
-            return result;
-        }
-    }
-
-    public List<List<String>> groupAnagrams(String[] strs) {
+    List<List<String>> groupAnagrams(String[] strs) {
         Map<String, List<Integer>> sortedStringToIndex = IntStream.range(0, strs.length).mapToObj(i -> new Pair<String, Integer>(sortString(strs[i]), i)).collect(
                 Collectors.toMap((Pair<String, Integer> pair) -> pair.getFirst(),
                         (Pair<String, Integer> pair2) -> {

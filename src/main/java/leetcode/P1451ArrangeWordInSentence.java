@@ -2,6 +2,7 @@ package leetcode;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import util.Pair;
 
 import java.util.*;
 import java.util.function.Function;
@@ -106,45 +107,6 @@ public class P1451ArrangeWordInSentence {
         return words.toArray(new String[0]);
     }
 
-    class Pair<K,V>{
-        final K first;
-        final V sec;
-
-        public Pair(K first, V sec) {
-            this.first = first;
-            this.sec = sec;
-        }
-
-        public K getFirst() {
-            return first;
-        }
-
-        public V getSec() {
-            return sec;
-        }
-
-        public String toString(){
-            return "("+first+ ", " + sec +")";
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Pair<?, ?> pair = (Pair<?, ?>) o;
-
-            if (!first.equals(pair.first)) return false;
-            return sec.equals(pair.sec);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = first.hashCode();
-            result = 31 * result + sec.hashCode();
-            return result;
-        }
-    }
     @Test
     void test(){
         String [] expected = new String[]{"I", "am", "world", "trotter"};

@@ -33,7 +33,7 @@ import java.util.*;
  * Traverse the graph in BFS. check for any new node all the parent course are already in output list.
  */
 class P210CourseScheduleIINotDone {
-    enum DiscoverEnum{
+    private enum DiscoverEnum{
         EXPLORED, DISCOVERED, UNDISCOVERED
     }
     int[] findOrder(int numCourses, int[][] prerequisites) {
