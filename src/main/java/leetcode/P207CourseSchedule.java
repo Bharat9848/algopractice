@@ -2,11 +2,10 @@ package leetcode;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import javax.naming.PartialResultException;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /*
@@ -37,16 +36,14 @@ Note:
     You may assume that there are no duplicate edges in the input prerequisites.
 
 Approach : its a dependency graph. it there is some cycle then answer is definitly false.
-Check all component.
+Check all component. If all component are tree then its possible.
 
 a->b a->g b-c c->d c->a e->f
 
 
  */
 public class P207CourseSchedule {
-    private enum Discovery{UNEXPLORED,PARTIALLY,EXPLORED}
-
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
+    boolean canFinishOld(int numCourses, int[][] prerequisites) {
         Discovery[] discovery = new Discovery[numCourses];
         IntStream.range(0, numCourses).forEach(i -> discovery[i] = Discovery.UNEXPLORED);
         boolean result = true;
@@ -75,10 +72,75 @@ public class P207CourseSchedule {
         return result;
     }
 
-    @Test
+   /* @Test
     public void test121(){
-        Assert.assertFalse(canFinish(2, new int[][]{{0,1},{1,0}}));
-        Assert.assertTrue(canFinish(2, new int[][]{{1,0}}));
-        Assert.assertFalse(canFinish(9, new int[][]{{0,1},{0,8},{1,2},{2,3},{3,4},{3,1}}));
+        Assert.assertFalse(canFinishOld(2, new int[][]{{0,1},{1,0}}));
+        Assert.assertTrue(canFinishOld(2, new int[][]{{1,0}}));
+        Assert.assertFalse(canFinishOld(9, new int[][]{{0,1},{0,8},{1,2},{2,3},{3,4},{3,1}}));
+    }*/
+
+    private enum Discovery{UNEXPLORED,PARTIALLY,EXPLORED}
+
+    boolean canFinish(int numCourses, int[][] prerequisites){
+        Discovery[] discoveries = new Discovery[numCourses];
+        Arrays.fill(discoveries, Discovery.UNEXPLORED);
+        boolean result = true;
+        for (int i = 0; i < numCourses; i++) {
+            result = result & canFinishCourse(i, prerequisites, discoveries);
+        }
+        return result;
+    }
+
+    private boolean canFinishCourse(int source, int[][] prerequisites, Discovery[] discoveries) {
+        boolean result = true;
+        discoveries[source] = Discovery.PARTIALLY;
+        for (int j = 0; j < prerequisites.length; j++) {
+            int[] dependency = prerequisites[j];
+            int course = dependency[0];
+            int dependsUpon = dependency[1];
+            if(course != source){
+                continue;
+            }else {
+                Discovery visited = discoveries[dependsUpon];
+                switch (visited){
+                    case EXPLORED:{
+                        //depends upon can be finished
+                        break;
+                    }
+                    case PARTIALLY://detects cycle
+                    {
+                        result = false;
+                        break;
+                    }
+                    case UNEXPLORED: {
+                        result = result & canFinishCourse(dependsUpon, prerequisites, discoveries);
+                        break;
+                    }
+                }
+            }
+        }
+        discoveries[source] = Discovery.EXPLORED;
+        return result;
+    }
+
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "2|[[1,0]]|true",
+            "2|[[1,0][0,1]]|false",
+            "9|[[0,1],[0,8],[1,2],[2,3],[3,4],[3,1]]|false",
+            "3|[]|true",
+            "3|[[0,1][1,2]]|true",
+            "3|[[0,1][1,2][2,0]]|false"
+    })
+    void test(int courses, String preReqStr, boolean expected){
+        int[][] preRequisite = Arrays.stream(preReqStr.split("],\\["))
+                .map(str -> str.replace("[", "").replace("]", "").trim())
+                .filter(s -> !s.isEmpty())
+                .map(s -> {
+                    int first = Integer.parseInt(s.substring(0, 1));
+                    int second = Integer.parseInt(s.substring(s.length() - 1));
+                    return new int[]{first, second};
+                }).toArray(int[][]::new);
+        Assert.assertEquals(expected, canFinish(courses, preRequisite));
     }
 }
