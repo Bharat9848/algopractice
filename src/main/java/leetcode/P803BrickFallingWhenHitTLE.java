@@ -108,7 +108,7 @@ for each hit
         return discoveries;
     }
 
-    enum Discovery {
+    private enum Discovery {
         UNREACH, DISCOVED, EXPLORED
     }
 
