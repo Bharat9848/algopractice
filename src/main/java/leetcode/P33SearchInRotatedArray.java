@@ -29,8 +29,8 @@ import java.util.Arrays;
  *     nums is guaranteed to be rotated at some pivot.
  *     -104 <= target <= 104
  *
- *     two slopes one start with next to highest point other start from 0index till end index. Target number can be in any of the slope.
- *     number can be in big no slope or number can be less no slope.
+ *     two slopes one start from random element to highest point. Other starts from 0th index until pivot element. Target number can be in any of the slope.
+ *     number can be in big slope or number can be less slope.
  *     find the target if its greater than left pointer and greater than right pointer than target need to be Bserached in first high no slope.
  *     if target is lower than right and left then if lie in lower no slope and need to be bserach in second half.
  *
@@ -65,9 +65,9 @@ class P33SearchInRotatedArray {
         while(beg<end){
             int mid = beg + (end - beg)/2;
             if(nums[mid] > nums[beg] && nums[mid] > nums[end]){
-                beg = mid+1;
+                beg = mid+1; // mid is on first slope
             }else if(nums[mid] < nums[beg] && nums[mid] < nums[end]){
-                end = mid;
+                end = mid; // mid is on second slope
             }else {
                 break;
             }
