@@ -33,23 +33,18 @@ class P253MeetingRoomII {
     int minMeetingRooms(int[][] intervals) {
         int noOfRooms = 1;
         Arrays.sort(intervals, Comparator.comparingInt(arr -> arr[0]));
-        List<Integer> meetingEndTimes = new ArrayList<>();
+        PriorityQueue<Integer> meetingEndTimes = new PriorityQueue<>(Integer::compareTo);
         meetingEndTimes.add(intervals[0][1]);
         for (int i = 1; i < intervals.length; i++) {
             if(meetingEndTimes.size() < noOfRooms){
                 continue;
             } else{
-                boolean overlappingWithAll = true;
-                for (int j = 0; j < meetingEndTimes.size() && overlappingWithAll; j++) {
-                    if(!areOverlapping(meetingEndTimes.get(j), intervals[i][0])){
-                        meetingEndTimes.remove(meetingEndTimes.get(j));
-                        overlappingWithAll = false;
-                    }
-                }
-                meetingEndTimes.add(intervals[i][1]);
-                if(overlappingWithAll){
+                if(!areOverlapping(meetingEndTimes.peek(), intervals[i][0])){
+                    meetingEndTimes.remove(meetingEndTimes.remove());
+                }else{
                     noOfRooms += 1;
                 }
+                meetingEndTimes.add(intervals[i][1]);
             }
         }
         return noOfRooms;
@@ -68,7 +63,8 @@ class P253MeetingRoomII {
             "[[2,8],[3,4]]|2",
             "[[2,8],[7,10]]|2",
             "[[1,13],[13,15]]|1",
-            "[[1,5],[2,5],[3,5],[4,5],[6,10]]|4"
+            "[[1,5],[2,5],[3,5],[4,5],[6,10]]|4",
+            "[[1,5],[8,9],[8,9]]|2"
     })
     void test(String meetingRoomsStr, int expected){
         int[][] intervals = Arrays.stream(meetingRoomsStr.split("],\\["))
