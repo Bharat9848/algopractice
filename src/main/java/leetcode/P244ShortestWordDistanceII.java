@@ -56,6 +56,7 @@ public class P244ShortestWordDistanceII {
         List<Integer> indices2 = wordToIndices.get(word2);
         int difference = Integer.MAX_VALUE;
         for (int i = 0; i < indices1.size(); i++) {
+            //TODO can be done in O(n) time without binary search
             int indices2Index = closestIndexBinarySearch(indices2, indices1.get(i));
             if (difference > Math.abs(indices2.get(indices2Index) - indices1.get(i))) {
                 difference = Math.abs(indices2.get(indices2Index) - indices1.get(i));
