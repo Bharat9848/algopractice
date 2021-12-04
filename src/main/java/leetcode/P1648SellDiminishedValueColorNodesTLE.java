@@ -3,8 +3,14 @@ package leetcode;
 import org.junit.Assert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import util.Pair;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /*
@@ -58,8 +64,64 @@ for n orders = nlog x
  */
 public class P1648SellDiminishedValueColorNodesTLE {
 
+    public int maxProfit(int[] inventory, int orders) {
+        double modulo = Math.pow(10,9)+7;
+        PriorityQueue<Pair<Integer, Integer>> freqWithRunningInventory = new PriorityQueue<>(inventory.length, (i, j) -> -(i.getFirst()-j.getFirst()));
+        double profit =0;
+        Map<Integer,Integer> inventoryToFreq = Arrays.stream(inventory).boxed().collect(Collectors.toMap(i-> i, i->1, (v1, v2) -> v1+v2 ));
+        inventoryToFreq.entrySet().stream().map(entry -> new Pair<>(entry.getKey(), entry.getValue())).forEach(freqWithRunningInventory::offer);
+        for (int orderLeft = orders; orderLeft > 0 && freqWithRunningInventory.size()>0; ) {
+            Pair<Integer,Integer> topEle = freqWithRunningInventory.remove();
+            int top = topEle.getFirst();
+            int topFreq= topEle.getSec();
+            int secondTop = 0;
+            if(freqWithRunningInventory.size()>0){
+                secondTop = freqWithRunningInventory.peek().getFirst();
+            }
+                if((top-secondTop)*topFreq >= orderLeft){
+                    profit+=sumBetween(top, topFreq, orderLeft);
+                    break;
+                }else{
+                    profit += sumBetween(top, topFreq,(top-secondTop)*topFreq);
+                    if(secondTop>0){
+                        Pair<Integer, Integer> newTop = freqWithRunningInventory.remove();
+                        freqWithRunningInventory.add(new Pair<>(newTop.getFirst(), newTop.getSec()+topFreq));
+                    }
+                    orderLeft-=(top-secondTop)*topFreq;
+                }
 
-     public int maxProfit(int[] inventory, int orders) {
+        }
+        System.out.println(profit);
+        return (int)(profit%modulo);
+    }
+
+    private double sumBetween(int top, int topFreq, int noOfEle) {
+        double sum =0;
+        if(topFreq == 1){
+            sum = sumBetween1(top, top-noOfEle);
+        }else{
+        for (int left = noOfEle; left > 0;) {
+            if(left > topFreq){
+                sum+=(top*topFreq);
+                top-=1;
+                left = left-topFreq;
+            }else {
+                sum+=(top*left);
+                left=0;
+            }
+        }
+        }
+        return sum;
+    }
+
+    private double sumBetween1(double first,double sec) {
+        BigInteger firstTillSum = BigInteger.valueOf((long) first).multiply(BigInteger.valueOf((long)first+1));
+        BigInteger secondTillSum = BigInteger.valueOf((long) sec).multiply(BigInteger.valueOf((long)sec+1));
+        return firstTillSum.subtract(secondTillSum).doubleValue()/2;
+    }
+
+
+    public int maxProfitTLE(int[] inventory, int orders) {
         long modulo = (long)Math.pow(10,9);
         long result = 0;
         Arrays.sort(inventory);
@@ -118,8 +180,11 @@ public class P1648SellDiminishedValueColorNodesTLE {
     @CsvSource(delimiter = ';', value = {"" +
             "[3,5];6;19",
             "[2,5];4;14",
+            "[4,4];3;11",
+            "[5];3;12",
     "[2,8,4,10,6];20;110",
     "[1000000000];1000000000;21",
+            "[773160767];25226499;70267492",
     "[497978859,167261111,483575207,591815159];836556809;373219333"}) //41 5,6,6,4,2
     void test(String inventoryStr, int order, int result){
         int[] inventory = Arrays.stream(inventoryStr.replace("[", "").replace("]", "").split(",")).mapToInt(Integer::parseInt).toArray();
