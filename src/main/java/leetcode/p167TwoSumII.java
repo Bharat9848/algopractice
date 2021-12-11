@@ -41,8 +41,9 @@ Constraints:
 
 
  */
-public class p167TwoSumII {
-    public int[] twoSum(int[] numbers, int target){
+class p167TwoSumII {
+
+    int[] twoSum(int[] numbers, int target){
         if(numbers.length<2){throw new RuntimeException("invalidConstranint");}
         int i = 0,j;
         for (; i < numbers.length; i++) {
