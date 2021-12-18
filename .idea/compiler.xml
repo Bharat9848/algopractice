@@ -9,8 +9,8 @@
         <module name="algopractice" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="algopractice" target="1.8" />
+    <bytecodeTargetLevel target="12">
+      <module name="algopractice" target="12" />
     </bytecodeTargetLevel>
   </component>
 </project>
