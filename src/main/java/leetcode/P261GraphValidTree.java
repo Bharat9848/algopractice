@@ -35,13 +35,13 @@ import java.util.*;
  *     There are no self-loops or repeated edges.
  *     Solution is to detect a cycle
  */
-class P261GraphValidTreeNotDone {
+class P261GraphValidTree {
     private enum Visited{VISITED, EXPLORED, NOTVISITED}
 
     boolean validTree(int n, int[][] edges) {
         Visited[] visited = new Visited[n];
         Arrays.fill(visited, Visited.NOTVISITED);
-        boolean valid = true;
+        if(edges.length==0) { return n == 1;}
         Map<Integer, List<Integer>> adjMatrix = new HashMap<>(n);
         for (int i = 0; i < edges.length; i++) {
             int[] edge = edges[i];
@@ -52,45 +52,29 @@ class P261GraphValidTreeNotDone {
             adjMatrix.get(src).add(dest);
             adjMatrix.get(dest).add(src);
         }
-        boolean rootFound = false;
-        for (int i = 0; i < n && valid && !rootFound; i++) {
-            if(visited[i] == Visited.NOTVISITED){
-                Arrays.fill(visited, Visited.NOTVISITED);
-                valid = isValidTreeFrom(i, adjMatrix, visited);
-                rootFound |= Arrays.stream(visited).allMatch(nodeVisit -> Visited.EXPLORED == nodeVisit);
-            }
-        }
-        return valid && rootFound;
+
+        return isValidTreeFrom(edges[0][0], edges[0][0], adjMatrix, visited) && Arrays.stream(visited).allMatch(visit -> visit == Visited.EXPLORED);
     }
 
-    private boolean isValidTreeFrom(int src, Map<Integer, List<Integer>> adjMatrix, Visited[] visited) {
-        List<Integer> queue = new ArrayList<>();
-        queue.add(src);
+    private boolean isValidTreeFrom(int parent, int src, Map<Integer, List<Integer>> adjMatrix, Visited[] visited) {
         visited[src] = Visited.VISITED;
-        boolean cycleFound = false;
-        while (!queue.isEmpty() && !cycleFound){
-            Integer node = queue.remove(0);
-            List<Integer> orDefault = adjMatrix.getOrDefault(node, new ArrayList<>());
-            for (int i = 0; i < orDefault.size() && !cycleFound; i++) {
-                Integer child = orDefault.get(i);
-                Visited destVisit = visited[child];
-                switch (destVisit) {
-                    case VISITED:
-                    case EXPLORED:{
-                        cycleFound = true;
-                        break;
-                    }
-                    case NOTVISITED: {
-                        queue.add(child);
-                        visited[child] = Visited.VISITED;
-                        break;
-                    }
-
+        boolean isTree = true;
+        List<Integer> edges = adjMatrix.get(src);
+        for (int i = 0; i < edges.size(); i++) {
+            int dest =  edges.get(i);
+            switch (visited[dest]){
+                case VISITED: if(dest != parent){
+                    return false;
                 }
+                break;
+                case EXPLORED:
+                    return false;
+                case NOTVISITED:
+                    isTree = isTree && isValidTreeFrom(src, dest, adjMatrix, visited);
             }
-            visited[node] = Visited.EXPLORED;
         }
-        return !cycleFound;
+        visited[src] = Visited.EXPLORED;
+        return isTree;
     }
 
     @ParameterizedTest
@@ -99,7 +83,10 @@ class P261GraphValidTreeNotDone {
             "5|[[0,1],[0,2],[0,3],[1,4]]|true",
             "4|[[0,1],[2,3]]|false",
             "2|[[1,0]]|true",
-            "3|[[1,0],[2,0]]|true"
+            "3|[[1,0],[2,0]]|true",
+            "4|[[2,3],[1,2],[1,3]]|false",
+            "1|[[]]|true",
+            "2|[[]]|false"
     })
     public void testIsValidTree(int nodesTotal, String edgsStr, boolean expected){
         int[][] edges = Arrays.stream(edgsStr.split("],\\["))

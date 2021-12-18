@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * browserHistory.back(2);                   // You are in "linkedin.com", move back two steps to "facebook.com" then to "google.com". return "google.com"
  * browserHistory.back(7);                   // You are in "google.com", you can move back only one step to "leetcode.com". return "leetcode.com"
  *
- *
+ * SOLution: imitate two stack using single array
  *
  * Constraints:
  *
@@ -51,8 +51,8 @@ import java.util.ArrayList;
  */
 public class P1472DesignBrowserHistory {
     private ArrayList<String> history;
-    int currentIndex = 0;
-    int historySize = 0;
+    private int currentIndex = 0;
+    private int historySize = 0;
     public void init(String homepage) {
         history = new ArrayList<>();
         historySize = 1;
