@@ -6,4 +6,4 @@
  2.1 operation over range of index: Cumulative sum(???)
  2.2 group element based on some criteria.
  
- 
+4. Rearrange array element problems: 1. sorting 2. group similar item 3. disperse item so that no same element are together. 
