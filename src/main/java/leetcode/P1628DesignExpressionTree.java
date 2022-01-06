@@ -60,7 +60,7 @@ public class P1628DesignExpressionTree {
             * You should not remove it, and you can define some classes to implement it.
  */
 
-    abstract class Node {
+    private abstract class Node {
         public abstract int evaluate();
         // define your fields here
     };
