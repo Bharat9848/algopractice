@@ -30,8 +30,8 @@ Explanation: There are three ways to climb to the top.
 Algo: at a particular step i: it will be sum of solution(i-1) and solution(i-2)
 
  */
-public class P70ClimbingStairs {
-    public int climbStairs(int n) {
+class P70ClimbingStairs {
+     int climbStairs(int n) {
         int result = 0;
         int solMinusOne=0, solMinusTwo=0;
         for (int i = 1; i <= n; i++) {
