@@ -70,20 +70,20 @@ class P1135MinimumCostConnectingTwoCities {
              .collect(Collectors.toMap(Pair::getFirst, Pair::getSec));
     }
 
-    class UnionFind{
+    private class UnionFind{
         private UnionFind parent;
         private int val;
         private int size;
-        public UnionFind(int val){
+        UnionFind(int val){
             this.val = val;
             this.size = 1;
         }
-        public void join(UnionFind subRoot){
+        void join(UnionFind subRoot){
             subRoot.parent = this;
             this.size = this.size + subRoot.size;
         }
 
-        public UnionFind findRoot(){
+        UnionFind findRoot(){
             UnionFind temp = this;
             while(temp.parent != null)
             {
@@ -92,7 +92,7 @@ class P1135MinimumCostConnectingTwoCities {
             return temp;
         }
 
-        public int size() {
+        int size() {
             return size;
         }
     }
