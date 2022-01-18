@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.
@@ -39,7 +41,68 @@ import java.util.Arrays;
  *     isConnected[i][j] == isConnected[j][i]
  */
 class P547NumOfProvinces {
+    private class UnionFind{
+        private int[] parent;
+        private int[] rank;
+        UnionFind(int size){
+            this.parent = new int[size];
+            this.rank = new int[size];
+            for (int i = 0; i < size; i++) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        int find(int node){
+            if(parent[node] == node){
+                return node;
+            }
+            int root = find(parent[node]);
+            parent[node] = root;
+            return root;
+        }
+
+        boolean connected(int i, int j) {
+            return find(i) == find(j);
+        }
+
+        void union(int i, int j) {
+            int rooti = find(i);
+            int rootj = find(j);
+            if(rooti != rootj){
+                int rankI = rank[i];
+                int rankJ = rank[j];
+                if(rankI > rankJ){
+                    parent[rootj] = rooti;
+                }else if(rankI < rankJ){
+                    parent[rooti] = rootj;
+                }else{
+                    parent[rooti] = rootj;
+                    rank[j] = rank[j] + 1;
+                }
+            }
+        }
+    }
+
     int findCircleNum(int[][] isConnected) {
+        UnionFind allVertices = new UnionFind(isConnected.length);
+        for (int i = 0; i < isConnected.length; i++) {
+            for (int j = i+1; j < isConnected[0].length; j++) {
+                if(isConnected[i][j] == 1 && !allVertices.connected(i, j)){
+                    allVertices.union(i, j);
+                }
+            }
+        }
+
+        HashSet<Integer> parents = new HashSet<>();
+        for (int i = 0; i < isConnected.length; i++) {
+            parents.add(allVertices.find(i));
+        }
+        System.out.println(parents);
+        return parents.size();
+    }
+
+    int findCircleNumDFS(int[][] isConnected) {
         int count = 0;
         boolean[] visited = new boolean[isConnected.length];
         for (int i = 0; i < isConnected.length; i++) {
@@ -61,8 +124,11 @@ class P547NumOfProvinces {
         }
     }
 
+
     @ParameterizedTest
-    @CsvSource(delimiter = '|', value = {"[[1,0,0],[0,1,0],[0,0,1]]|3",
+    @CsvSource(delimiter = '|', value = {
+            "[[1,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,1,0,1,0,0,0,0,0,0,0,0,0,1,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,1,0,0,0,1,0,0,0,1,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,1,0,0,0,1,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]]|8",
+            "[[1,0,0],[0,1,0],[0,0,1]]|3",
     "[[1,1,0],[1,1,0],[0,0,1]]|2"})
     void test(String arrStr, int expected){
         int[][] arr= Arrays.stream(arrStr.split("],\\["))

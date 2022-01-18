@@ -1,10 +1,13 @@
 package leetcode;
 
+import core.ds.UnionFind;
 import org.junit.Assert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * You have a graph of n nodes. You are given an integer n and an array edges where edges[i] = [ai, bi] indicates that there is an edge between ai and bi in the graph.
@@ -35,9 +38,29 @@ import java.util.*;
  *     There are no repeated edges.
  */
 class P323NoOfComponentInUndirectedGraph {
+    int countComponents(int n, int[][] edges) {
+        UnionFind forest = new UnionFind(n);
+        for (int i = 0; i < edges.length; i++) {
+            int src = edges[i][0];
+            int dest = edges[i][1];
+            if(!forest.connected(src, dest)){
+                forest.union(src, dest);
+            }
+        }
+        Set<Integer> allParents = IntStream.range(0, n).map(i -> forest.find(i)).boxed().collect(Collectors.toSet());
+        return allParents.size();
+    }
+
+
+
+
+
+
+
+
     //TODO improvement Visit can be a boolean array VISITED and EXPLORED does not have any impact.
     private enum Visit{NOTVISIT, VISITED, EXPLORED}
-    int countComponents(int n, int[][] edges) {
+    int countComponentsDFS(int n, int[][] edges) {
         int count=0;
         Map<Integer, List<Integer>> edgesMap = new HashMap<>();
         //TODO bug -> for undirected edge a->b not adding second b->a in adjMap. I thought I dont need it.
