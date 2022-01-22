@@ -9,3 +9,5 @@ It is sometimes difficult to recognize the optimal substructure in the problem s
 - problem ask for some optimal solution like whats the maximum or minimum or how many ways etc.
 - Local decision to distinguish between greedy algorithm from DP approach. Greedy algorithm do not need DP approach for the optimal solution like minimum spanning tree etc. On the other hand DP is valid for algorithm where greedy approach will lead to non optimal global solution e.g. knapsack etc.
  
+Problems:
+Somewhat difficult to figure out memoization matrix axis: P1770 https://leetcode.com/problems/maximum-score-from-performing-multiplication-operations/
