@@ -4,4 +4,4 @@ MST for a graph can be determined using Prim algorithm and Kruskal algorithm.Bot
 2. Kruskal algorithm uses union find data structure which articulates disjoint set data structure and help in optimizing union function which allows two disjoint set to collapse in single disjoint set and find operation which allows us to distinguish two nodes their respective disjoint sets. Each node starts with their own disjoint set. Then edges are sorted in order of their cost. Then at each step two distinct disjoint set of each edge's two node   collapse into one single disjoint set.
 
 ###DFS
-DFS time complexity is O(V+E)??
+DFS time complexity is O(V+E)??The for loop for visiting edge for each vertex have a cumulative sum of at most E iterations since it will iterate over all of the node's neighbors for each node. 

@@ -1,11 +1,13 @@
 package leetcode;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /*
 Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node in the graph contains a val (int) and a list (List[Node]) of its neighbors.
@@ -40,58 +42,101 @@ public class P133CloneGraph {
         public int val;
         public List<Node> neighbors;
 
-        public Node() {}
+        public Node() {
+        }
 
-        public Node(int _val,List<Node> _neighbors) {
+        public Node(int _val, List<Node> _neighbors) {
             val = _val;
             neighbors = _neighbors;
         }
 
         @Override
-        public String toString(){
-            return  genStr(this,new HashMap<>());
+        public String toString() {
+            return genStr(this, new HashMap<>());
         }
-        }
-        public String genStr(Node node, Map<Node,Boolean> visited) {
-            StringBuilder neighborsStr = new StringBuilder("Node ==> val= " + node.val  +", neighbors={");
+
+        private String genStr(Node node, Map<Node, Boolean> visited) {
+            StringBuilder neighborsStr = new StringBuilder("Node ==> val= " + node.val + ", neighbors={");
             visited.put(node, Boolean.TRUE);
-            for(Node x : node.neighbors){
-                if(!visited.getOrDefault(x, Boolean.FALSE)){
-                    neighborsStr.append(" ").append(genStr(x,visited)).append(", ");
-                }else{
+            for (Node x : node.neighbors) {
+                if (!visited.getOrDefault(x, Boolean.FALSE)) {
+                    neighborsStr.append(" ").append(genStr(x, visited)).append(", ");
+                } else {
                     neighborsStr.append("ref = ").append(x.val);
                 }
             }
             return neighborsStr.append("}<====").toString();
-    }
+        }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node node = (Node) o;
+            return val == node.val && Objects.equals(neighbors.stream().map(n -> n.val).collect(Collectors.toList()), node.neighbors.stream().map(n -> n.val).collect(Collectors.toList()));
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(val);
+        }
+    }
     public Node cloneGraph(Node root){
-        Map<Node,Node> visited = new HashMap<>();
-        return copyNode(root, visited);
+        Map<Integer, Boolean> visited = new HashMap<>();
+        Map<Integer, Node> registry = new HashMap<>();
+        return cloneGraph(root, visited, registry);
     }
 
-    private Node copyNode(Node node, Map<Node,Node> visited){
-        Node duplicate = new Node(node.val,null);
-        List<Node> duplicateNeighs = new ArrayList<>();
-        visited.put(node, duplicate);
-        for(Node neighbour : node.neighbors){
-            if(visited.get(neighbour) == null){
-                duplicateNeighs.add(copyNode(neighbour, visited));
-            }else{
-                duplicateNeighs.add(visited.get(neighbour));
+    private Node cloneGraph(Node root, Map<Integer, Boolean> visited, Map<Integer, Node> registry) {
+        Node duplicate = new Node(root.val, new ArrayList<>());
+        visited.put(root.val, true);
+        registry.put(duplicate.val, duplicate);
+        for (Node neigh: root.neighbors){
+            if(visited.containsKey(neigh.val)){
+                duplicate.neighbors.add(registry.get(neigh.val));
+            }else {
+                duplicate.neighbors.add(cloneGraph(neigh, visited, registry));
             }
         }
-        duplicate.neighbors = duplicateNeighs;
         return duplicate;
     }
 
-    @Test
-    public void test1(){
-        Node one  = new Node(1, null);
-        Node two  = new Node(2, new ArrayList<Node>(){{add(one);}});
-        Node three = new Node(3, new ArrayList<Node>(){{add(one); add(two);}});
-        one.neighbors = new ArrayList<Node>(){{add(two);add(three);}};
-        two.neighbors.add(three);
-        System.out.println(cloneGraph(one));
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "[[2,4],[1,3],[2,4],[1,3]]|[[2,4],[1,3],[2,4],[1,3]]"
+    })
+    void test(String graphStr, String expectedStr){
+        List<List<Integer>> adjMatrix = Arrays.stream(graphStr.split("],\\["))
+                .map(str -> str.replaceAll("\\[", "").replaceAll("]", "").trim())
+                .filter(s -> !s.isEmpty())
+                .map(s -> Arrays.stream(s.split(",")).map(Integer::parseInt).collect(Collectors.toList())).collect(Collectors.toList());
+        Map<Integer, Node> registry = new HashMap<>();
+
+        for (int i = 0; i < adjMatrix.size(); i++){
+            int vertex = i+1;
+            Node node = new Node(vertex, new ArrayList<>());
+            registry.put(vertex, node);
+        }
+        for (int i = 0; i < adjMatrix.size(); i++){
+            List<Integer> edges = adjMatrix.get(i);
+            Node src = registry.get(i+1);
+            for(int edge: edges){
+                src.neighbors.add(registry.get(edge));
+            }
+        }
+        Node root = registry.get(1);
+        Node clone = cloneGraph(root);
+        /*Map<Integer, Node> cloneMap = new HashMap<>();
+        cloneRegistry(clone, cloneMap);*/
+        Assertions.assertEquals(root, clone);
+    }
+
+    private void cloneRegistry(Node clone, Map<Integer, Node> cloneMap) {
+        cloneMap.putIfAbsent(clone.val, clone);
+        for (Node neigh: clone.neighbors){
+            if(cloneMap.get(neigh.val) == null){
+                cloneRegistry(neigh, cloneMap);
+            }
+        }
     }
 }
