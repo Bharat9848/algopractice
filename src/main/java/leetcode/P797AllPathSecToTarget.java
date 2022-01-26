@@ -44,7 +44,6 @@ class P797AllPathSecToTarget {
         ArrayList<Integer> startPath = new ArrayList<>();
         startPath.add(src);
         paths.add(startPath);
-        //lol
         while (!paths.isEmpty()){
             List<Integer> lastPath = paths.pop();
             int[] neighbours = graph[lastPath.get(lastPath.size()-1)];
