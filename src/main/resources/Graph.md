@@ -22,3 +22,7 @@ At any particular time during the algorithm grey nodes signify the active path. 
 
 #####performance
 Time Complexity: O(V+E). Here, V represents the number of vertices, and E represents the number of edges. We need to check every vertex and traverse through every edge in the graph. The time complexity is the same as it was for the DFS approach.
+
+###Djikstra Algorithm:
+####Perfomance
+Time complexity O(E+VlogV)
