@@ -9,4 +9,4 @@
 4. Rearrange array element problems: 1. sorting 2. group similar item 3. disperse item so that no same element are together. 
 
 5. Sometime problems requires to sort (or not) and then process the number when numbers switch from one to another.
-6. Two pointer technique: one pointer can be loop index and other index can be invariant index. check problem 26 remove duplicate.
+6. Two pointer technique: one pointer can be loop index and other index can be invariant/guard index left of which is an invariant is maintained e.g. find pivot, remove duplicates(problem 26).
