@@ -23,6 +23,11 @@ At any particular time during the algorithm grey nodes signify the active path. 
 #####performance
 Time Complexity: O(V+E). Here, V represents the number of vertices, and E represents the number of edges. We need to check every vertex and traverse through every edge in the graph. The time complexity is the same as it was for the DFS approach.
 
-###Djikstra Algorithm:
+###Djikstra shortestpath Algorithm:
+It does not work on graph containing negative edges.
 ####Perfomance
 Time complexity O(E+VlogV)
+
+###BellmenFord shortestpath Algorithm:
+It only work on graph which have positive weight cycle. It means sum of weights in cycle is positive not negative. Thus it does not work on a graph having negative weight cycle.
+It based on a assumption that in a graph of V number of vertices the path between any two vertices can not be greater than V-1 length. Thus after V-1 relaxations of all edges we will get shortest path to all vetices from source vertex. In each relaxation we consume all the edges one by one and recompute shortest distance using current edge and previous shortest distance computation.  
