@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BST {
+public class BreadthFirstTraversal {
 
     public void BST(int noOfNodes, int src, List<Integer>[] edges){
         Graph.Label[] labels = new Graph.Label[noOfNodes];

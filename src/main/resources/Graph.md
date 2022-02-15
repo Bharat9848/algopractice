@@ -31,3 +31,10 @@ Time complexity O(E+VlogV)
 ###BellmenFord shortestpath Algorithm:
 It only work on graph which have positive weight cycle. It means sum of weights in cycle is positive not negative. Thus it does not work on a graph having negative weight cycle.
 It based on a assumption that in a graph of V number of vertices the path between any two vertices can not be greater than V-1 length. Thus after V-1 relaxations of all edges we will get shortest path to all vetices from source vertex. In each relaxation we consume all the edges one by one and recompute shortest distance using current edge and previous shortest distance computation.  
+
+###Topological Sorting
+Relative ordering of vertices such that all in-degree vertices for a particular vertex should be processed before the vertex. As suggested by definition sorting cannot be done for a cyclic graph.
+####Kahn algorithm
+At each iteration choose a vertex with zero inbound edge and decrease the inbound edges counts for vertices which have the current vertex as its inbound.
+#####Perfomance
+for all vertices we iterated over all their prerequisite.Hence the time complexity O(V*E) and space complexity O(V)
