@@ -4,6 +4,7 @@ import com.sun.source.tree.AssertTree;
 import org.junit.Assert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import util.Pair;
 
 import java.util.*;
 
@@ -33,10 +34,67 @@ import java.util.*;
  * Traverse the graph in BFS. check for any new node all the parent course are already in output list.
  */
 class P210CourseScheduleII {
+    int[] findOrder(int numCourses, int[][] prerequisites) {
+        List<Integer> result = new ArrayList<>();
+        Map<Integer, Pair<List<Integer>, List<Integer>>> adjMapInboundAndOutbound = new HashMap<>();
+        for (int i = 0; i < numCourses; i++) {
+            adjMapInboundAndOutbound.putIfAbsent(i, new Pair<>(new ArrayList<>(), new ArrayList<>()));
+        }
+        for (int i = 0; i < prerequisites.length; i++) {
+            int dependent  = prerequisites[i][0];
+            int dependentOn  = prerequisites[i][1];
+            adjMapInboundAndOutbound.get(dependentOn).getSec().add(dependent);
+            adjMapInboundAndOutbound.get(dependent).getFirst().add(dependentOn);
+        }
+        boolean[] visited = new boolean[numCourses];
+        int startCourse = nextCourseWithNoDependency(visited, adjMapInboundAndOutbound);
+        if(startCourse == -1){
+            return new int[0];
+        }else {
+            Queue<Integer> queue = new LinkedList<>();
+            queue.add(startCourse);
+            while (!queue.isEmpty()){
+                int course = queue.remove();
+                result.add(course);
+                markCourseDone(course, adjMapInboundAndOutbound);
+                visited[course] = true;
+                int nextCourse = nextCourseWithNoDependency(visited, adjMapInboundAndOutbound);
+                if(nextCourse == -1){
+                    return new int[0];
+                }else if(nextCourse < numCourses)
+                    queue.add(nextCourse);
+                }
+            }
+            return result.stream().mapToInt(Integer::intValue).toArray();
+        }
+
+    private void markCourseDone(int course, Map<Integer, Pair<List<Integer>, List<Integer>>> adjMapInboundAndOutbound) {
+        List<Integer> outboundCourses = adjMapInboundAndOutbound.get(course).getSec();
+        for (int i = 0; i < outboundCourses.size(); i++) {
+            adjMapInboundAndOutbound.get(outboundCourses.get(i)).getFirst().removeIf(ele -> ele == course);
+        }
+    }
+
+
+
+    private int nextCourseWithNoDependency(boolean[] visited, Map<Integer, Pair<List<Integer>, List<Integer>>> adjMapInboundAndOutbound) {
+        boolean allVisited = true;
+        for (int i = 0; i < visited.length; i++) {
+            if(!visited[i]){
+                allVisited = false;
+                if(adjMapInboundAndOutbound.get(i).getFirst().isEmpty()){
+                    return i;
+                }
+            }
+        }
+        return !allVisited ? -1 : visited.length;
+    }
+
+
     private enum DiscoverEnum{
         EXPLORED, DISCOVERED, UNDISCOVERED
     }
-    int[] findOrder(int numCourses, int[][] prerequisites) {
+    int[] findOrderDFS(int numCourses, int[][] prerequisites) {
         DiscoverEnum[] visited = new DiscoverEnum[numCourses];
         Arrays.fill(visited, DiscoverEnum.UNDISCOVERED);
 
