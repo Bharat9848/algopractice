@@ -34,6 +34,7 @@ It based on a assumption that in a graph of V number of vertices the path betwee
 
 ###Topological Sorting
 Relative ordering of vertices such that all in-degree vertices for a particular vertex should be processed before the vertex. As suggested by definition sorting cannot be done for a cyclic graph.
+Implementation : know care
 ####Kahn algorithm
 At each iteration choose a vertex with zero inbound edge and decrease the inbound edges counts for vertices which have the current vertex as its inbound.
 #####Perfomance
