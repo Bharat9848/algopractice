@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
  *     1 <= s.length <= 5000
  *     s consists of only lowercase English letters.
  */
-public class P266CanBeAPalindrome {
+class P266CanBeAPalindrome {
     boolean canPermutePalindrome(String s) {
         Map<Character, Integer> charToCount = IntStream.range(0, s.length()).mapToObj(i -> s.charAt(i))
                 .collect(Collectors.toMap(s1 ->s1, s1 -> 1, (v1, v2) -> v1+v2));

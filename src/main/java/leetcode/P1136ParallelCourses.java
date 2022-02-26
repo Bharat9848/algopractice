@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  *     prevCoursei != nextCoursei
  *     All the pairs [prevCoursei, nextCoursei] are unique.
  */
-public class P1136ParallelCourses {
+class P1136ParallelCourses {
     int minimumSemesters(int n, int[][] relations) {
         Map<Integer, Pair<Set<Integer>, Set<Integer>>> adjMap = new HashMap<>();
         for (int j = 1; j <= n; j++) {

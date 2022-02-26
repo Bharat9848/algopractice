@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  *     1 <= words[i].length <= 50
  *     s and words[i] consist of only lowercase English letters.
  */
-public class P792NoOfMatchingSubSeqTLE {
+class P792NoOfMatchingSubSeqTLE {
     int numMatchingSubseq(String s, String[] words) {
         Map<String, Integer> wordToCount = Arrays.stream(words).collect(Collectors.toMap(str->str, str -> 1, (v1, v2) -> v1+v2));
         Set<String> lastIndexSubSeq = new HashSet<>();

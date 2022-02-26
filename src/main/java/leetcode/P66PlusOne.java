@@ -29,8 +29,8 @@ import java.util.Arrays;
  * Incrementing by one gives 9 + 1 = 10.
  * Thus, the result should be [1,0].
  */
-public class P66PlusOne {
-    public int[] plusOne(int[] digits) {
+class P66PlusOne {
+    int[] plusOne(int[] digits) {
         boolean carry = false;
         for (int i = digits.length-1; i >=0 ; i--) {
             int dig = digits[i];
