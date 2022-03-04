@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
 
-class P221MaximalSquareTLE {
+class P221MaximalSquare {
     @ParameterizedTest
     @CsvSource(delimiter = '|', value = {
             "[[0,0,0,1],[1,1,0,1],[1,1,1,1],[0,1,1,1],[0,1,1,1]]|9",
@@ -40,6 +40,24 @@ class P221MaximalSquareTLE {
     }
 
     int maximalSquare(char[][] matrix) {
+        int result = 0;
+        int[][] length = new int[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] == '1'){
+                    int diagonalLen = (i - 1 >= 0 && j - 1 >= 0) ? length[i - 1][j - 1] : 0;
+                    int leftWall = (i - 1 >= 0) ? length[i - 1][j] : 0;
+                    int rightWall = (j - 1 >= 0) ? length[i][j - 1] : 0;
+                    int squareLength = Math.min(diagonalLen, Math.min(leftWall, rightWall)) + 1;
+                    length[i][j] = squareLength;
+                    result = Math.max(squareLength * squareLength, result);
+                }
+            }
+        }
+        return result;
+    }
+
+    int maximalSquareTLE(char[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
         int[][] maxSquare = new int[m][n];
