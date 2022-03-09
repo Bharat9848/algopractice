@@ -1,13 +1,13 @@
 package leetcode;
 
-import core.ds.Graph;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import util.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Stack;
 
 /**Given a non-empty 2D array grid of 0's and 1's, an island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
 
@@ -33,65 +33,68 @@ public class P695MaxAreaIsland {
 
 
     public int maxAreaOfIsland(int[][] grid) {
+        if(grid == null|| grid.length==0){
+            return 0;
+        }
+        boolean[][] visited = new boolean[grid.length][grid[0].length];
         int area = 0;
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
-
-                if(grid[i][j]==0||(j-1 >= 0 && grid[i][j]==1 && grid[i][j-1]==1)
-                        ||(i-1 >= 0 && grid[i][j]==1 && grid[i-1][j]==1)){
-                    continue;
-                }else{
-                    int temp = calArea(grid,i,j);
-                    if(temp>area){
-                        area = temp;
-                    }
+                if(grid[i][j] == 1 && !visited[i][j]){
+                    area = Math.max(discoverIsland(grid, i, j, visited), area);
                 }
-
             }
         }
         return area;
     }
 
-    private int calArea(int[][] grid, int i, int j) {
-        int area=1;
-        HashMap<Pair<Integer,Integer>,Graph.Label> seenGraph= new HashMap<>();
-        seenGraph.put(new Pair<>(i,j), Graph.Label.DISCOVERED);
-        List<Pair<Integer,Integer>> queue = new ArrayList<>();
-        queue.add(new Pair<>(i,j));
-        while (! queue.isEmpty()){
-            Pair<Integer,Integer> u = queue.remove(0);
-            if(u.getFirst()+1<grid.length && grid[u.getFirst()+1][u.getSec()]==1 && seenGraph.get(new Pair<>(u.getFirst()+1, u.getSec()))==null){
-                area+=1;
-                seenGraph.put(new Pair<>(u.getFirst()+1, u.getSec()), Graph.Label.DISCOVERED);
-                queue.add(new Pair<>(u.getFirst()+1,u.getSec()));
+    private int discoverIsland(int[][] grid, int rowSource, int colSource, boolean[][] visited) {
+        int area = 0;
+        Stack<Pair<Integer, Integer>> toVisit = new Stack<>();
+        toVisit.push(new Pair<>(rowSource, colSource));
+        while (!toVisit.isEmpty()){
+            Pair<Integer,Integer> visiting = toVisit.peek();
+            int row = visiting.getFirst();
+            int col = visiting.getSec();
+            visited[row][col] = true;
+            int[][] neighbours = new int[][]{ {row+1, col}, {row-1,col}, {row,col+1}, {row, col-1}};
+            boolean allVisited = true;
+            for (int i = 0; i < 4; i++) {
+                int rn = neighbours[i][0];
+                int cn = neighbours[i][1];
+                if(rn < grid.length && rn >=0 && cn < grid[0].length && cn >=0 && !visited[rn][cn] && grid[rn][cn]==1){
+                    toVisit.push(new Pair<>(rn, cn));
+                    allVisited = false;
+                    break;
+                }
             }
-
-            if(u.getSec()+1<grid[0].length && grid[u.getFirst()][u.getSec()+1]==1 && seenGraph.get(new Pair<>(u.getFirst(), u.getSec()+1))==null){
+            if(allVisited){
                 area+=1;
-                seenGraph.put(new Pair<>(u.getFirst(), u.getSec()+1), Graph.Label.DISCOVERED);
-                queue.add(new Pair<>(u.getFirst(),u.getSec()+1));
-            }
-
-            if(u.getFirst()-1>=0 && grid[u.getFirst()-1][u.getSec()]==1 && seenGraph.get(new Pair<>(u.getFirst()-1, u.getSec()))==null){
-                area+=1;
-                seenGraph.put(new Pair<>(u.getFirst()-1, u.getSec()), Graph.Label.DISCOVERED);
-                queue.add(new Pair<>(u.getFirst()-1,u.getSec()));
-            }
-
-            if(u.getSec()-1>=0 && grid[u.getFirst()][u.getSec()-1]==1 && seenGraph.get(new Pair<>(u.getFirst(), u.getSec()-1))==null){
-                area+=1;
-                seenGraph.put(new Pair<>(u.getFirst(), u.getSec()-1), Graph.Label.DISCOVERED);
-                queue.add(new Pair<>(u.getFirst(),u.getSec()-1));
+                toVisit.pop();
             }
         }
         return area;
+    }
+
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "[[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]|6",
+            "[0,0,1,0,0,0,0,1,0],[0,0,0,0,0,0,1,1,1]|4",
+            "[[1,1,0,1]]|2",
+            "[[1]]|1",
+            "[[0]]|0",
+    })
+    void test123(String matrixStr, int expected){
+        int[][] map = Arrays.stream(matrixStr.split("],\\["))
+                .map(str -> str.replaceAll("\\[", "").replaceAll("]", "").trim())
+                .filter(s -> !s.isEmpty())
+                .map(s -> Arrays.stream(s.split(",")).mapToInt(Integer::parseInt).toArray()).toArray(int[][]::new);
+        Assertions.assertEquals(expected, maxAreaOfIsland(map));
     }
 
     @Test
-    public void test123(){
-        Assert.assertEquals(4, maxAreaOfIsland(new int[][]{{0,0,1,0,0,0,0,1,0},{0,0,0,0,0,0,1,1,1}}));
-        Assert.assertEquals(0, maxAreaOfIsland(new int[][]{}));
-        Assert.assertEquals(0, maxAreaOfIsland(new int[0][]));
-        Assert.assertEquals(2, maxAreaOfIsland(new int[][]{{1,1,0,1}}));
+    void testEdgeCases(){
+        Assertions.assertEquals(0, maxAreaOfIsland(new int[0][]));
+        Assertions.assertEquals(0, maxAreaOfIsland(new int[][]{}));
     }
 }

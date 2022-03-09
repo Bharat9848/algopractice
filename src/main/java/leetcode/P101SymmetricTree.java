@@ -1,28 +1,17 @@
 package leetcode;
 
 import core.ds.TreeNode;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
  *
- *
- *
- * Example 1:
- *
  * Input: root = [1,2,2,3,4,4,3]
  * Output: true
- *
- * Example 2:
- *
  * Input: root = [1,2,2,null,3,null,3]
  * Output: false
- *
- *
- *
- * Constraints:
  *
  *     The number of nodes in the tree is in the range [1, 1000].
  *     -100 <= Node.val <= 100
@@ -66,6 +55,6 @@ class P101SymmetricTree {
             "1,2,2,3,null,null,3,4,5,5,4|true"
     })
     void testHappy(String treeStr, boolean expected){
-        Assert.assertEquals(expected, isSymmetric(TreeNode.createTreeFromStringArr(treeStr)));
+        Assertions.assertEquals(expected, isSymmetric(TreeNode.createTreeFromStringArr(treeStr)));
     }
 }
