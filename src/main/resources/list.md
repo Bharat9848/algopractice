@@ -1,0 +1,3 @@
+- for removing kth last node from the last try to maintain k+1 distance between kAhead node and current node.
+- Always use dummy nodes this will help in condition where list can be null
+- In question where you have to use faster/slower nodes make both faster and slower to start from dummy node. This will make faster node always be 2*slower node's position ahead.

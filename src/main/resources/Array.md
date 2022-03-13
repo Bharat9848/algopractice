@@ -12,4 +12,9 @@
 6. Two pointer technique: one pointer can be loop index and other index can be invariant/guard index left of which is an invariant is maintained e.g. find pivot, remove duplicates(problem 26).
 7. Shuffling algorithm: The Fisher-Yates algorithm is remarkably similar to the brute force solution. On each iteration of the algorithm, we generate a random integer between the current index and the last index of the array. Then, we swap the elements at the current index and the chosen index - this simulates drawing (and removing) the element from the hat, as the next range from which we select a random index will not include the most recently processed one. One small, yet important detail is that it is possible to swap an element with itself - otherwise, some array permutations would be more likely than others. To see this illustrated more clearly, consider the animation below:
 
-8. In Binary search always run a case of two element in your mind. try finding out first, last, missing number lie in middle, missing number less than first and missing number greater than last.
+### Binary Search
+8. In Binary search always run a case of two element in your mind. try finding out first, last, missing number lie in middle, missing number less than first and missing number greater than last. If duplicate constraint is not mentioned explicitly then try to cover duplicate scenario 
+
+### Sliding window
+1. If sliding window problem consist of String then use int[26] instead of hashmap for frequency map. Also preprocess the window work that means alongwith collecting and removing character from the window, use additional variables(means ask of the problem ) which contain the result of the problem in current window scenario. Then incremently remove leftmost character of the current window and add the next non-window character in rightmost part, plus try to manipulate additional variable character by character. 
+2. Sometimes you just need to maintain the pointers to left and right position no need to maintain the sliding window map. 
