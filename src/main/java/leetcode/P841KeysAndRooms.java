@@ -1,11 +1,16 @@
 package leetcode;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * There are N rooms and you start in room 0.  Each room has a distinct number in 0, 1, 2, ..., N-1, and each room may have some keys to access the next room.
@@ -40,39 +45,36 @@ import java.util.List;
 
  * Created by bharat on 9/6/18.
  */
-public class P841KeysAndRooms {
-    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
-        int nRoom = rooms.size();
-        int[] visited = new int[nRoom];
-        visited[0] = 1;
-        return canVisitAllRooms(rooms, -1,0,visited);
-    }
+ class P841KeysAndRooms {
+     boolean canVisitAllRooms(List<List<Integer>> rooms) {
+         boolean[] visited = new boolean[rooms.size()];
+         canVisit(0, rooms, visited);
+         boolean reached = true;
+         for (int i = 0; i < visited.length && reached; i++) {
+             reached = visited[i];
+         }
+         return reached;
+     }
 
-    private boolean canVisitAllRooms(List<List<Integer>> rooms, int src, int dest, int[] visited) {
-        visited[dest] = 1;
-        if(allvisited(visited)){return true;}
-        for (Integer d : rooms.get(dest)){
-            if(visited[d] == 0){
-                if(canVisitAllRooms(rooms,dest,d,visited)){
-                    return true;
-                }
+    private void canVisit(int src, List<List<Integer>> rooms, boolean[] visited) {
+        List<Integer> keys = rooms.get(src);
+        visited[src] = true;
+        for (Integer key: keys){
+            if(!visited[key]){
+                canVisit(key, rooms, visited);
             }
         }
-        visited[dest] = 2;
-        return false;
-    }
+     }
 
-    private boolean allvisited(int[] visited) {
-        for (int i = 0; i < visited.length; i++) {
-            if(visited[i]==0){return false;}
-        }
-        return true;
-    }
-
-    @Test
-    public void test(){
-        assertTrue(canVisitAllRooms(Arrays.asList(Arrays.asList(1),Arrays.asList(2),Arrays.asList(3), Collections.emptyList())));
-        assertFalse(canVisitAllRooms(Arrays.asList(Arrays.asList(1,3),Arrays.asList(3,0,1),Arrays.asList(2), Arrays.asList(0))));
-        assertTrue(canVisitAllRooms(Arrays.asList(Arrays.asList(2,3),Arrays.asList(),Arrays.asList(2), Arrays.asList(1,3,1))));
-    }
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "[[1,3],[3,0,1],[2],[0]]|false",
+            "[[1],[2],[3],[]]|true",
+    })
+     void test(String keysStr, boolean expected){
+        List<List<Integer>> rooms = Arrays.stream(keysStr.split("],\\["))
+                .map(str -> str.replaceAll("\\[", "").replaceAll("]", "").trim())
+                .map(s -> s.isEmpty()? Collections.<Integer>emptyList():Arrays.stream(s.split(",")).map(Integer::parseInt).collect(Collectors.toList())).collect(Collectors.toList());
+        Assertions.assertEquals(expected, canVisitAllRooms(rooms));
+     }
 }
