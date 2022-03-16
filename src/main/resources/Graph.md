@@ -2,6 +2,11 @@
 MST for a graph can be determined using Prim algorithm and Kruskal algorithm.Both are greedy algorithm. 
 1. Prim algorithm similar to Djikstra algortithm for shortest path between two nodes chooses a new node every time based on minimum cost. Prim algorithm treats all the nodes in a intree as a single node and considers the non tree node with minimum distance from any of intree node. While the Djikstra algorithm chooses to minimumize distance to any non tree node from the original src node.
 2. Kruskal algorithm uses union find data structure which articulates disjoint set data structure and help in optimizing union function which allows two disjoint set to collapse in single disjoint set and find operation which allows us to distinguish two nodes their respective disjoint sets. Each node starts with their own disjoint set. Then edges are sorted in order of their cost. Then at each step two distinct disjoint set of each edge's two node   collapse into one single disjoint set.
+##Traversal
+
+### Difficulties
+- BFS Optimization to start from src to destination implementation is still rusty. I need more practice.
+- Confusion about when to mark visited flag 1. when we see the node for the first time as a child of some node 2. Or when we process the node.
 
 ###Depth First Search
 #####performance
@@ -23,6 +28,8 @@ At any particular time during the algorithm grey nodes signify the active path. 
 #####performance
 Time Complexity: O(V+E). Here, V represents the number of vertices, and E represents the number of edges. We need to check every vertex and traverse through every edge in the graph. The time complexity is the same as it was for the DFS approach.
 
+### Good questions
+P934, P1926
 ###Djikstra shortestpath Algorithm:
 It does not work on graph containing negative edges.
 ####Perfomance
@@ -37,5 +44,5 @@ Relative ordering of vertices such that all in-degree vertices for a particular 
 Implementation : know care
 ####Kahn algorithm
 At each iteration choose a vertex with zero inbound edge and decrease the inbound edges counts for vertices which have the current vertex as its inbound.
-#####Perfomance
+#####Performance
 for all vertices we iterated over all their prerequisite.Hence the time complexity O(V*E) and space complexity O(V)
