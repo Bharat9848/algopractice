@@ -35,8 +35,10 @@ SOLUTION : think reverse problem : Water come inside.
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import util.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,116 +50,56 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class P417PacificAtlanticWaterFlow {
+    List<List<Integer>> pacificAtlantic(int[][] matrix) {
+        boolean[][] visited = new boolean[matrix.length][matrix[0].length];
+        Set<Pair<Integer,Integer>> atlanticReachable = new HashSet<>();
+        for (int i = 0; i < matrix.length; i++) {
+            atlanticReachable.add(new Pair<>(i, matrix[0].length-1));
+            visited[i][matrix[0].length-1] = true;
+        }
+        for (int j = 0; j < matrix[0].length; j++) {
+            atlanticReachable.add(new Pair<>(matrix.length-1, j));
+            visited[matrix.length-1][j] = true;
+        }
+        Set<Pair<Integer, Integer>> allAtlanticReachable = findAllReachableBFS(atlanticReachable, matrix, visited);
 
-    private enum Reachable {
-        NEITHER, ATLANTIC_REACHABLE, PACIFIC_REACHABLE, BOTH_REACHABLE
+        boolean[][] visited1 = new boolean[matrix.length][matrix[0].length];
+        Set<Pair<Integer,Integer>> pacificReachables = new HashSet<>();
+        for (int i = 0; i < matrix.length; i++) {
+            pacificReachables.add(new Pair<>(i, 0));
+            visited1[i][0] = true;
+        }
+        for (int j = 0; j < matrix[0].length; j++) {
+            pacificReachables.add(new Pair<>(0, j));
+            visited1[0][j] = true;
+        }
+        Set<Pair<Integer,Integer>> allPacificReachable = findAllReachableBFS(pacificReachables, matrix, visited1);
+        allPacificReachable.retainAll(allAtlanticReachable);
+        return allPacificReachable.stream().map(pair -> Arrays.asList(pair.getFirst(), pair.getSec())).collect(Collectors.toList());
     }
 
-     List<List<Integer>> pacificAtlantic(int[][] matrix) {
-        if (matrix.length == 0 || matrix[0].length == 0) {
-            return new ArrayList<>();
-        }
-
-        int nrow = matrix.length;
-        int ncol = matrix[0].length;
-
-         Reachable[][] reachables = new Reachable[nrow][ncol];
-         if (ncol == 1 || nrow == 1) {
-                 return IntStream.range(0, Math.max(nrow, ncol)).mapToObj(index -> {
-                     if(ncol == 1){
-                        return Arrays.asList(index, 0);
-                     }else {
-                         return Arrays.asList(0, index);
-                     }
-                 }).collect(Collectors.toList());
-         }
-         List<int[]> pacificNodes = new ArrayList<>(ncol + nrow -1);
-         List<int[]> atlanticNodes = new ArrayList<>(ncol + nrow -1);
-         for (int i = 0; i < nrow; i++) {
-             for (int j = 0; j < ncol; j++) {
-                 if ((i == 0 && j == matrix[0].length - 1) || (j == 0 && i == matrix.length - 1)) {
-                     pacificNodes.add(new int[]{i,j});
-                     atlanticNodes.add(new int[] {i,j});
-                     reachables[i][j] = Reachable.BOTH_REACHABLE;
-                 } else if (i == 0 || j == 0) {
-                     pacificNodes.add(new int[]{i,j});
-                     reachables[i][j] = Reachable.PACIFIC_REACHABLE;
-                 } else if (i == matrix.length - 1 || j == matrix[0].length - 1) {
-                     atlanticNodes.add(new int[] {i,j});
-                     reachables[i][j] = Reachable.ATLANTIC_REACHABLE;
-                 } else {
-                     reachables[i][j] = Reachable.NEITHER;
-                 }
-             }
-         }
-         final boolean[][] visited = new boolean[nrow][ncol];
-         pacificNodes.forEach(cell -> visited[cell[0]][cell[1]] = true);
-        //Pacific cityWater Climb
-         while (!pacificNodes.isEmpty()){
-             List<int[]> nextGenPacific = new LinkedList<>();
-             while (!pacificNodes.isEmpty()){
-                 int[] node = pacificNodes.remove(0);
-                 int row = node[0], col = node[1];
-                 int[][] neighbours = new int[][]{{row-1, col}, {row, col+1},{row+1, col}, {row, col-1}};
-                 for (int i = 0; i < neighbours.length ; i++) {
-                     int newRow = neighbours[i][0];
-                     int newCol = neighbours[i][1];
-                     if(newRow >= 0 && newCol >=0 && newRow < matrix.length && newCol < matrix[0].length && matrix[newRow][newCol] >= matrix[row][col] && !visited[newRow][newCol]){
-                         if(reachables[newRow][newCol] == Reachable.ATLANTIC_REACHABLE || reachables[newRow][newCol] == Reachable.BOTH_REACHABLE){
-                             reachables[newRow][newCol] = Reachable.BOTH_REACHABLE;
-                         }else{
-                             reachables[newRow][newCol] = Reachable.PACIFIC_REACHABLE;
-                         }
-                         nextGenPacific.add(new int[]{newRow, newCol});
-                     }
-                 }
-                 visited[row][col] = true;
-             }
-             pacificNodes = nextGenPacific;
-         }
-         final boolean[][] visited1 = new boolean[nrow][ncol];
-         atlanticNodes.forEach(cell -> visited1[cell[0]][cell[1]] = true);
-         //Atlantic water climb
-         while (!atlanticNodes.isEmpty()){
-             List<int[]> nextGenAtlantic = new LinkedList<>();
-             while (!atlanticNodes.isEmpty()){
-                 int[] node = atlanticNodes.remove(0);
-                 int row = node[0], col = node[1];
-                 int[][] neighbours = new int[][]{{row-1, col}, {row, col+1},{row+1, col}, {row, col-1}};
-                 visited1[row][col] = true;
-                 for (int i = 0; i < neighbours.length ; i++) {
-                     int newRow = neighbours[i][0];
-                     int newCol = neighbours[i][1];
-                     if(newRow >= 0 && newCol >=0 && newRow < matrix.length && newCol < matrix[0].length && matrix[newRow][newCol] >= matrix[row][col] && !visited1[newRow][newCol]){
-                         if(reachables[newRow][newCol] == Reachable.PACIFIC_REACHABLE || reachables[newRow][newCol] == Reachable.BOTH_REACHABLE ){
-                             reachables[newRow][newCol] = Reachable.BOTH_REACHABLE;
-                         }else{
-                             reachables[newRow][newCol] = Reachable.ATLANTIC_REACHABLE;
-                         }
-                         nextGenAtlantic.add(new int[]{newRow, newCol});
-                     }
-                 }
-             }
-             atlanticNodes = nextGenAtlantic;
-         }
-
-        //solve all vertices
-         List<List<Integer>> result = new ArrayList<>();
-         for (int i = 0; i < nrow; i++) {
-            for (int j = 0; j < ncol; j++) {
-                if (reachables[i][j] == Reachable.BOTH_REACHABLE) {
-                    result.add(asList(i, j));
+    Set<Pair<Integer,Integer>> findAllReachableBFS(Set<Pair<Integer, Integer>> levelNodes, int[][] matrix, boolean[][] visited){
+        Set<Pair<Integer,Integer>> allReachable = new HashSet<>();
+        allReachable.addAll(levelNodes);
+        while (!levelNodes.isEmpty()){
+            Set<Pair<Integer,Integer>> nextReachable = new HashSet<>();
+            for(Pair<Integer, Integer> atlanticCurrent: levelNodes){
+                int row = atlanticCurrent.getFirst();
+                int col = atlanticCurrent.getSec();
+                int[][] neighbours = new int[][]{{row-1, col},{row, col+1}, {row+1,col}, {row, col-1}};
+                for (int i = 0; i <neighbours.length; i++) {
+                    int r = neighbours[i][0];
+                    int c = neighbours[i][1];
+                    if(r>=0 && r< matrix.length && c >=0 && c<matrix[0].length && !visited[r][c] && matrix[r][c] >= matrix[row][col]){
+                        nextReachable.add(new Pair<>(r,c));
+                        visited[r][c] = true;
+                    }
                 }
             }
+            allReachable.addAll(nextReachable);
+            levelNodes = nextReachable;
         }
-        return result;
-    }
-
-    @Test
-    public void testEmpty() {
-        assertTrue(pacificAtlantic(new int[][]{{}}).isEmpty() );
-        assertTrue(pacificAtlantic(new int[][]{}).isEmpty());
-
+        return allReachable;
     }
 
     @ParameterizedTest
@@ -180,6 +122,6 @@ public class P417PacificAtlanticWaterFlow {
                 .filter(s -> !s.isEmpty())
                 .map(s -> Arrays.stream(s.split(",")).map(String::trim).map(Integer::parseInt).collect(Collectors.toList()))
                 .collect(Collectors.toSet());
-        Assert.assertEquals(expected, new HashSet<>(pacificAtlantic(water)));
+        Assertions.assertEquals(expected, new HashSet<>(pacificAtlantic(water)));
     }
 }
