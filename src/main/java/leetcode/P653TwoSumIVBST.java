@@ -1,6 +1,5 @@
 package leetcode;
 
-import com.sun.source.tree.Tree;
 import core.ds.TreeNode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +20,7 @@ import java.util.Stack;
  *     root is guaranteed to be a valid binary search tree.
  *     -105 <= k <= 105
  */
-public class P653TwoSumIV {
+public class P653TwoSumIVBST {
     boolean findTarget(TreeNode root, int k) {
         if(root == null || (root.left == null && root.right == null)){
             return false;
