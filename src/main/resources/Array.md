@@ -15,6 +15,13 @@
 ### Binary Search
 8. In Binary search always run a case of two element in your mind. try finding out first, last, missing number lie in middle, missing number less than first and missing number greater than last. If duplicate constraint is not mentioned explicitly then try to cover duplicate scenario 
 
+### Divide and Conquer
+We can divide the problem set by half or we can use some other criteria. In one advance usage I observed problem set was divide at an index of a element which cannot be part of the solution, this way we do not have to think about combine operation.
+
 ### Sliding window
 1. If sliding window problem consist of String then use int[26] instead of hashmap for frequency map. Also preprocess the window work that means alongwith collecting and removing character from the window, use additional variables(means ask of the problem ) which contain the result of the problem in current window scenario. Then incremently remove leftmost character of the current window and add the next non-window character in rightmost part, plus try to manipulate additional variable character by character. 
 2. Sometimes you just need to maintain the pointers to left and right position no need to maintain the sliding window map. 
+3. Window size can expand/shrink dynamically e.g. number of unique character in the sliding window.
+
+#### Good question
+P395MinLengthWithKRepeatingCharNotDone
