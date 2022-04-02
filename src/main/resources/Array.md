@@ -13,7 +13,8 @@
 7. Shuffling algorithm: The Fisher-Yates algorithm is remarkably similar to the brute force solution. On each iteration of the algorithm, we generate a random integer between the current index and the last index of the array. Then, we swap the elements at the current index and the chosen index - this simulates drawing (and removing) the element from the hat, as the next range from which we select a random index will not include the most recently processed one. One small, yet important detail is that it is possible to swap an element with itself - otherwise, some array permutations would be more likely than others. To see this illustrated more clearly, consider the animation below:
 
 ### Binary Search
-8. In Binary search always run a case of two element in your mind. try finding out first, last, missing number lie in middle, missing number less than first and missing number greater than last. If duplicate constraint is not mentioned explicitly then try to cover duplicate scenario 
+- In Binary search always run a case of two element in your mind. try finding out first, last, missing number lie in middle, missing number less than first and missing number greater than last. If duplicate constraint is not mentioned explicitly then try to cover duplicate scenario 
+- As Binary search divide the problem at each step, similar to this in some scenarios we can move boundaries like left and right in reverse direction means at each step left become right and right get multiply by 2. 
 
 ### Divide and Conquer
 We can divide the problem set by half or we can use some other criteria. In one advance usage I observed problem set was divide at an index of a element which cannot be part of the solution, this way we do not have to think about combine operation.
