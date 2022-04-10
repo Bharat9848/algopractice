@@ -5,6 +5,7 @@ MST for a graph can be determined using Prim algorithm and Kruskal algorithm.Bot
 ##Traversal
 
 ### Difficulties
+- Travel from both end and meet in the middle need to practice more(**real incident**).
 - BFS Optimization to start from src to destination implementation is still rusty. I need more practice.
 - Confusion about when to mark visited flag 1. when we see the node for the first time as a child of some node 2. Or when we process the node.
 

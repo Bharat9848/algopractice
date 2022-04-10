@@ -42,59 +42,76 @@ import java.util.stream.Collectors;
  */
 class P127WordLadder {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        int levelCount = 0;
-        Map<String, Boolean> dictionaryVisited = wordList.stream().collect(Collectors.toMap(w -> w, w -> false));
-        List<String> level = new LinkedList<>();
-        level.add(beginWord);
-        boolean endWordFound = false;
-        while (!level.isEmpty() && !endWordFound){
-            List<String> nextLevel = new LinkedList<>();
-            while (!level.isEmpty() && !endWordFound){
-                String word = level.remove(0);
-                if(word.equals(endWord)){
-                    endWordFound = true;
-                }else {
-                    List<String> newGeneratedWords = findSigleLetterDistance(word);
-                    for (int i = 0; i < newGeneratedWords.size(); i++) {
-                        String newWord = newGeneratedWords.get(i);
-                        if(!dictionaryVisited.containsKey(newWord)){
-                            continue;
-                        }else {
-                            Boolean visitedBefore = dictionaryVisited.get(newWord);
-                            if(visitedBefore){
-                                continue;
-                            }else {
-                                dictionaryVisited.put(newWord, true);
-                                nextLevel.add(newWord);
-                            }
-                        }
+        int transformationBegin =1;
+        int transformationEnd = 1;
+        Set<String> dictionary = new HashSet<>(wordList);
+        if(!dictionary.contains(endWord)){
+            return 0;
+        }
+        Set<String> queueBegin = new HashSet<>();
+        Set<String> queueEnd = new HashSet<>();
+        queueBegin.add(beginWord);
+        queueEnd.add(endWord);
+        Set<String> seenBegin = new HashSet<>();
+        Set<String> seenEnd = new HashSet<>();
+        while (!queueBegin.isEmpty() && !queueEnd.isEmpty()){
+            Set<String> nextLevelBegin = new HashSet<>();
+            Set<String> nextLevelEnd = new HashSet<>();
+            for(String current: queueBegin){
+                Set<String> allTransformed = findAllTransformed(current, dictionary, seenBegin);
+                for(String transformed: allTransformed){
+                    if(queueEnd.contains(transformed)){
+                        return transformationBegin + transformationEnd;
+                    }else{
+                        nextLevelBegin.add(transformed);
                     }
                 }
             }
-            level = nextLevel;
-            levelCount+=1;
-        }
-        return endWordFound ? levelCount:0;
-    }
-
-    private List<String> findSigleLetterDistance(String word) {
-        List<String> newWords = new ArrayList<>();
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
-            for (int j = 0; j < 26; j++) {
-                if (ch - 'a' == j) {
-                    continue;
-                } else {
-                    char newChar = (char) ('a' + j);
-                    newWords.add((i > 0 ? word.substring(0, i) : "") + Character.valueOf(newChar).toString() + (i < word.length() - 1 ? word.substring(i + 1) : ""));
+            transformationBegin +=1;
+            for(String current: queueEnd){
+                Set<String> allTransformed = findAllTransformed(current, dictionary, seenEnd);
+                for(String transformed: allTransformed){
+                    if(nextLevelBegin.contains(transformed)){
+                        return transformationBegin + transformationEnd;
+                    }else{
+                        nextLevelEnd.add(transformed);
+                    }
                 }
             }
+            transformationEnd += 1;
+            if(!nextLevelBegin.isEmpty() && !nextLevelEnd.isEmpty()){
+                seenBegin.addAll(queueBegin);
+                seenEnd.addAll(queueEnd);
+                queueBegin = nextLevelBegin;
+                queueEnd = nextLevelEnd;
+            }else{
+                queueBegin = new HashSet<>();
+                queueEnd = new HashSet<>();
+            }
         }
-        return newWords;
+        return 0;
+    }
+
+    private Set<String> findAllTransformed(String current, Set<String> dictionary, Set<String> seen) {
+        return dictionary.stream()
+                .filter(word -> !word.equals(current))
+                .filter(word -> isOneCharDist(word, current) && !seen.contains(word))
+                .collect(Collectors.toSet());
+    }
+
+    private boolean isOneCharDist(String word, String current) {
+        int count = 0;
+        for (int i = 0; i < current.length() && count < 2; i++) {
+            if(word.charAt(i) != current.charAt(i)){
+                count++;
+            }
+        }
+        return count==1;
     }
 
     @ParameterizedTest
     @CsvSource(delimiter = '|', value = {
+            "hit|hot|hot,dot,dog,lot,log|2",
             "hit|cog|hot,dot,dog,lot,log|0",
             "hit|cog|hot,dot,dog,lot,log,cog|5"
     })
