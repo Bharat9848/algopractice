@@ -12,14 +12,14 @@ MST for a graph can be determined using Prim algorithm and Kruskal algorithm.Bot
 ###Depth First Search
 #####performance
 DFS time complexity is O(V+E)??The for loop for visiting edge for each vertex have a cumulative sum of at most E iterations since it will iterate over all the node's neighbors for each node. 
-
+To stop moving in circle we keep a visited collection and mark any node which we seem is processed after our first visit. Though in cases where we may want to visit it again(like finding the shortest path) then we have to use other mechanism than visited collection.
 ####Cycle detection:
 In case of cycle detection we need coloring of nodes which signifies 
 1. node not touched, 
 2. visited but not all descendant fully explored, 
 3. fully explored means all descendant are fully visited. 
 
-At any particular time during the algorithm grey nodes signify the active path. And last grey node being explored means all its descendant being checked to see if a any descendant is grey means that we have visited that descendant before in the active path. Hence we have a cycle. In case descendant is fully explored that means we have a cross edge that means current path is connecting to other path which is explored before.
+At any particular time during the algorithm grey nodes signify the active path. And last grey node being explored means all its descendant being checked to see if any descendant is grey means that we have visited that descendant before in the active path. Hence, we have a cycle. In case where descendant is fully explored that means we have a cross edge that means current path is connecting to other path which is explored before.
 
 ###Breadth First Search
 #####Use Case
