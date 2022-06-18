@@ -13,6 +13,8 @@ import java.util.Arrays;
  *
  * Given two integer arrays gas and cost, return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, it is guaranteed to be unique
  *
+ *  -2 -2 -2 3 3
+ *  -1 -1 1
  *
  *
  * Example 1:
