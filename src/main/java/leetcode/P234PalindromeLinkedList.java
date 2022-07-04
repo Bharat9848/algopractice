@@ -16,14 +16,34 @@ import java.nio.charset.StandardCharsets;
  * Input: head = [1,2]
  * Output: false
  *
- *     The number of nodes in the list is in the range [1, 105].
+ *     The number of nodes in the list is in the range [1, 10^5].
  *     0 <= Node.val <= 9
  *
  * Follow up: Could you do it in O(n) time and O(1) space?
  */
-public class P234PalindromeLinkedList {
+class P234PalindromeLinkedList {
 
     boolean isPalindrome(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode slow=dummy, fast=dummy;
+        StringBuilder halfNo = new StringBuilder("");
+        while(fast != null){
+            slow = slow.next;
+            fast = fast.next;
+            if(fast != null){
+                fast = fast.next;
+                halfNo.append(slow.val);
+            }
+        }
+        StringBuilder secondHalf = new StringBuilder("");
+        while (slow != null){
+            secondHalf.insert(0, slow.val);
+            slow = slow.next;
+        }
+        return halfNo.toString().equals(secondHalf.toString());
+    }
+    boolean isPalindromeTLE(ListNode head) {
         String no = "";
         int noOfDigits = 0;
         ListNode dummy = new ListNode(-1);
