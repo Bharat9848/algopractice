@@ -1,7 +1,11 @@
 package leetcode;
 
+import core.ds.TreeNode;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import util.Pair;
 
 import static java.lang.Math.abs;
@@ -12,10 +16,19 @@ import static java.lang.Math.abs;
  * For this problem, a height-balanced binary tree is defined as:
  * <p>
  * a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
- * Created by bharat on 8/4/18.
+ * Input: root = [3,9,20,null,null,15,7]
+ * Output: true
+ * Input: root = [1,2,2,3,3,null,null,4,4]
+ * Output: false
+ * Input: root = []
+ * Output: true
+ * Constraints:
+ *
+ *     The number of nodes in the tree is in the range [0, 5000].
+ *     -10^4 <= Node.val <= 10^4
  */
 public class P110TreeBalanced {
-    private class TreeNode {
+   /* private class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -93,5 +106,34 @@ public class P110TreeBalanced {
         P110TreeBalanced x = new P110TreeBalanced();
         Assert.assertFalse(x.isBalanced(a));
 
+    }*/
+
+    boolean isBalanced(TreeNode root) {
+        Pair<Boolean, Integer> result = isBalancedInternal(root);
+        return result.getFirst();
+    }
+
+    private Pair<Boolean, Integer> isBalancedInternal(TreeNode root) {
+        if(root == null){
+            return new Pair<>(true, 0);
+        }
+        Pair<Boolean, Integer> leftsideBalancedWithHeight = isBalancedInternal(root.left);
+        Pair<Boolean, Integer> rightsideBalancedWithHeight = isBalancedInternal(root.right);
+        Integer leftHeight = leftsideBalancedWithHeight.getSec();
+        Integer rightHeight = rightsideBalancedWithHeight.getSec();
+        return new Pair<>(leftsideBalancedWithHeight.getFirst() && rightsideBalancedWithHeight.getFirst() && Math.abs(leftHeight-rightHeight) <= 1 , Math.max(leftHeight, rightHeight) + 1);
+    }
+
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "3,9,20,null,null,15,7|true",
+            "1,2,2,3,3,null,null,4,4|false",
+                    "|true",
+                    "1|true",
+                    "1,2,null,3,null|false",
+                    "1,null,2,3,null|false"
+    })
+    void test(String treeStr, boolean expected){
+        Assertions.assertEquals(expected, isBalanced(treeStr == null ? null : TreeNode.createTreeFromStringArr( treeStr)));
     }
 }
