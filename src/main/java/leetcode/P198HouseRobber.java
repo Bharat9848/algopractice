@@ -27,10 +27,29 @@ Output: 12
 Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
              Total amount you can rob = 2 + 9 + 1 = 12.
 
+
+    1 <= nums.length <= 100
+    0 <= nums[i] <= 400
+
 Algo: at position i if we know the max rob amount for last two adjacent room then I can take the decision weather to rob i or not depends upon whats the maximum between secondLastRob+currentRob or lastRob
  */
  class P198HouseRobber {
     int rob(int[] nums) {
+        //wrong intuition
+        if(nums.length == 1){
+            return nums[0];
+        }
+        int[] maxAmountIfCurrentHouseIncluded = new int[nums.length];
+        maxAmountIfCurrentHouseIncluded[0] = nums[0];
+        maxAmountIfCurrentHouseIncluded[1] = nums[1];
+        for (int i = 2; i < nums.length; i++) {
+            maxAmountIfCurrentHouseIncluded[i] = Math.max(maxAmountIfCurrentHouseIncluded[i-2] + nums[i], (i-3 <0 ? 0 :maxAmountIfCurrentHouseIncluded[i-3]) + nums[i]);
+        }
+        return Math.max(maxAmountIfCurrentHouseIncluded[nums.length-1], maxAmountIfCurrentHouseIncluded[nums.length-2]);
+    }
+
+
+    int robOld(int[] nums) {
         if(nums.length==0) return 0;
         int secondLastRob = 0, lastRob = nums[0];
         int currentRob = nums[0];
