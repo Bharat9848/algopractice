@@ -19,11 +19,14 @@ class MergeKIntervalList {
             return kList.get(0);
         }
 
-        PriorityQueue<Pair<List<Pair<Integer, Integer>>, Pair<Integer, Integer>>> heap = new PriorityQueue<Pair<List<Pair<Integer, Integer>>, Pair<Integer, Integer>>>((pair1, pair2) -> { if(pair1.getSec().getFirst() < pair2.getSec().getFirst()){ return -1;}else if (pair1.getSec().getFirst() == pair2.getSec().getFirst()){
-            return pair1.getSec().getSec() - pair2.getSec().getSec();
-        }else{
-            return 1;
-        } });
+        PriorityQueue<Pair<List<Pair<Integer, Integer>>, Pair<Integer, Integer>>> heap = new PriorityQueue<>((pair1, pair2) -> {
+            if (pair1.getSec().getFirst() < pair2.getSec().getFirst()) {
+                return -1;
+            } else if (pair1.getSec().getFirst() == pair2.getSec().getFirst()) {
+                return pair1.getSec().getSec() - pair2.getSec().getSec();
+            } else {
+                return 1;
+            } });
         //init heap
         for (int i = 0; i < kList.size(); i++) {
             List<Pair<Integer,Integer>> list = kList.get(i);
