@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
 
-/** Given an sorted array with customerIds representing how many times he/she have visited amazon.com
+/** Given a sorted array with customerIds representing how many times he/she have visited amazon.com
  * return how many times customer Id have visited the amazon.com
  * @Interview Asked in Amazon phoneScreening
  */
