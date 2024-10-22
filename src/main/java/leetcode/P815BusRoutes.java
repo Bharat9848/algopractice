@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * You are given an array routes representing bus routes where routes[i] is a bus route that the ith bus repeats forever.
@@ -29,8 +30,8 @@ import java.util.*;
  *     0 <= routes[i][j] < 106
  *     0 <= source, target < 106
  */
-public class P815BusRoutesTLE {
-    int numBusesToDestination(int[][] routes, int source, int target) {
+public class P815BusRoutes {
+    int numBusesToDestinationTLE(int[][] routes, int source, int target) {
         Map<Integer, Integer> shortestPathFromSrc = new HashMap<>();
         shortestPathFromSrc.put(source, 0);
         Map<Integer, List<int[]>> stationToBusRoutes = new HashMap<>();
@@ -63,15 +64,78 @@ public class P815BusRoutesTLE {
                     current = stationToLegth.getKey();
                 }
             }
+            if(current != null && current == target) {
+                return min;
+            }
         }
 
         return shortestPathFromSrc.getOrDefault(target,-1);
     }
 
+    int numBusesToDestination(int[][] routes, int source, int target) {
+
+        if(source == target){
+            return 0;
+        }
+
+        Map<Integer, List<Integer>> stationToBusRoutes = new HashMap<>();
+        for (int i = 0; i < routes.length; i++) {
+            for (int j = 0; j < routes[i].length; j++) {
+                int station = routes[i][j];
+                stationToBusRoutes.put(station, stationToBusRoutes.getOrDefault(station, new ArrayList<>()));
+                stationToBusRoutes.get(station).add(i);
+
+            }
+        }
+        if(stationToBusRoutes.get(source) == null || stationToBusRoutes.get(target) == null) {
+            return -1;
+        }
+        Set<Integer> seenBusRoutes = new HashSet<>();
+        List<Integer> currentBusStation = new ArrayList<>();
+        for(Integer startBusRoute : stationToBusRoutes.get(source)){
+            seenBusRoutes.add(startBusRoute);
+            currentBusStation.addAll(Arrays.stream(routes[startBusRoute]).boxed().collect(Collectors.toList()));
+        }
+
+        List<Integer> siblingBusStation = new ArrayList<>();
+        int noOfBuses = 1;
+        boolean targetFound = false;
+        while ( !currentBusStation.isEmpty()){
+            int current  = currentBusStation.remove(0);
+            if(current == target){
+                targetFound = true;
+                break;
+            }
+            List<Integer> busRoutes = stationToBusRoutes.get(current);
+            for(Integer busRoute: busRoutes){
+                if(!seenBusRoutes.contains(busRoute)){
+                    siblingBusStation.addAll(Arrays.stream(routes[busRoute]).boxed().collect(Collectors.toList()));
+                    seenBusRoutes.add(busRoute);
+                }
+            }
+            if(currentBusStation.isEmpty() && !siblingBusStation.isEmpty()){
+                currentBusStation = siblingBusStation;
+                siblingBusStation = new ArrayList<>();
+                noOfBuses++;
+            }
+        }
+
+        return targetFound? noOfBuses:-1;
+    }
+
+
     @ParameterizedTest
     @CsvSource(delimiter = '|', value = {
+            "[[]]|2|4|-1",
+            "[[2]]|2|2|0",
+            "[[1]]|1|5|-1",
+            "[[1,2,7],[3,6,7]]|8|6|-1",
+            "[[2]]|2|2|0",
+            "[[2],[2,8]]|8|2|1",
             "[[1,2,7],[3,6,7]]|1|6|2",
-            "[[7,12],[4,5,15],[6],[15,19],[9,12,13]]|15|12|-1"
+            "[[1,2,7],[3,6,7]]|7|1|1",
+            "[[7,12],[4,5,15],[6],[15,19],[9,12,13]]|15|12|-1",
+            "[[1,2,7]]|1|7|1"
     })
     void test(String routesStr, int source, int target, int expected){
         int[][] routes = Arrays.stream(routesStr.split("],\\["))
