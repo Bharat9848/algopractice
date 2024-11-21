@@ -1,4 +1,4 @@
-package Matrix;
+package matrix;
 
 /**
  * TODO This problem was asked by Amazon.
