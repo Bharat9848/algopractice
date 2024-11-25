@@ -1,4 +1,4 @@
-package List;
+package list;
 
 /**
  * TODO This problem was asked by Amazon.

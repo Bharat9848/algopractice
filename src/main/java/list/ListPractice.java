@@ -1,4 +1,4 @@
-package List;
+package list;
 
 import core.ds.ListNode;
 import org.junit.Test;
