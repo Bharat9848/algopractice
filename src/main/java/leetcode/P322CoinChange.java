@@ -2,6 +2,9 @@ package leetcode;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
 
@@ -57,7 +60,6 @@ public class P322CoinChange {
             int min = Integer.MAX_VALUE;
             for (int j = 0; j < coins.length; j++) {
                 if (subAmount - coins[j] < 0 || amountToNoOfCoins[subAmount - coins[j]] == -1) {
-                    continue;
                 } else {
                     if (min > amountToNoOfCoins[subAmount - coins[j]] + 1) {
                         min = amountToNoOfCoins[subAmount - coins[j]] + 1;
@@ -70,13 +72,41 @@ public class P322CoinChange {
         return amountToNoOfCoins[amount];
     }
 
-    @Test
-    public void test() {
-        Assert.assertEquals(2, coinChangeIterative(new int[]{2, 5}, 10));
-        Assert.assertEquals(2, coinChangeIterative(new int[]{1, 2, 5}, 10));
-        Assert.assertEquals(2, coinChangeIterative(new int[]{1, 2, 5}, 3));
-        Assert.assertEquals(4, coinChangeIterative(new int[]{1, 2, 5}, 20));
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "1,2,5|10|2",
+            "1,2,5|11|3",
+            "1,2,3,4|11|3",
+            "1,2,3,4,5|7|2",
+            "11,13|7|-1",
+            "11,13|0|0",
+            "2|4|2",
+            "2,3,4,6,8|23|4",
+            "52,172|500|5",
+            "186,419,83,408|6249|20"
 
-        Assert.assertEquals(-1, coinChangeIterative(new int[]{13, 17}, 18));
+    })
+    void test(String coinsStr, int total, int expected) {
+        int[] coins = Arrays.stream(coinsStr.split(",")).mapToInt(Integer::parseInt).toArray();
+        Assertions.assertEquals(expected, coinChange(coins, total));
+    }
+
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+            "1,2,5|10|2",
+            "1,2,5|11|3",
+            "1,2,3,4|11|3",
+            "1,2,3,4,5|7|2",
+            "11,13|7|-1",
+            "11,13|0|0",
+            "2|4|2",
+            "2,3,4,6,8|23|4",
+            "52,172|500|5",
+            "186,419,83,408|6249|20"
+
+    })
+    void testIterative(String coinsStr, int total, int expected) {
+        int[] coins = Arrays.stream(coinsStr.split(",")).mapToInt(Integer::parseInt).toArray();
+        Assertions.assertEquals(expected, coinChangeIterative(coins, total));
     }
 }
