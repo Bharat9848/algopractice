@@ -15,5 +15,6 @@ Note: Check if problems is not straight forward DP check assume it can be solved
 Problems:
 Somewhat difficult to figure out recursive formula: 
 coin change - `cc(coins, total) =  min^coin(i)(i=0...n-1)(cc(coins, total-coini)+1` 
+counting bits = `bitsCount(n) = bitsCount(n/2) for even; bitscount(n) = bitscount(n/2) + 1 for odd`
 P1335 https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/
 P1770 https://leetcode.com/problems/maximum-score-from-performing-multiplication-operations/
