@@ -11,5 +11,5 @@
 ## Question Bank
  1. Given an array, find the difference between the maximum and minimum elements in each window of size 44 as it slides through the array.
  2. Design a data structure to store a collection of integers supporting the following two operations: 1. Add an integer to the collection. 2. Find median of all the elements in the collection in constant time.
-
+ 3. median of a stream/k size sliding window.
  
