@@ -26,75 +26,11 @@ import java.util.regex.Pattern;
  *     1≤room1i,room2i≤n
  *     room1i≠room2i
  *     There are no duplicate corridors.
+ *     TODO educative; attempt -1 was using DFS, Can be done in some other way
  */
 public class ConfusionMatrix {
     public static  int numberOfPaths(int n, int[][] corridors) {
-        Map<Integer, List<Integer>> adjacencyList = getAdjList(corridors);
-        Stack<Integer> stack = new Stack<>();
-        Map<Integer, Boolean> visited = new HashMap<>();
-        int no = 0;
-        for (int i = 1; i <= n; i++) {
-            if(!visited.containsKey(i)){
-                no += findDfsNoOf3Cycle(i, stack, visited, adjacencyList);
-            }
-        }
-        return no;
-    }
-
-    private static Map<Integer, List<Integer>> getAdjList(int[][] corridors) {
-        Map<Integer, List<Integer>> adjList = new HashMap<>();
-        for (int i = 0; i < corridors.length; i++) {
-            int x = corridors[i][0];
-            int y = corridors[i][1];
-            adjList.putIfAbsent(x, new ArrayList<>());
-            adjList.putIfAbsent(y, new ArrayList<>());
-            adjList.get(x).add(y);
-            adjList.get(y).add(x);
-        }
-        return adjList;
-    }
-
-    private static int findDfsNoOf3Cycle(int i, Stack<Integer> stack, Map<Integer, Boolean> visited, Map<Integer, List<Integer>> adjList) {
-        stack.push(i);
-        int cycle = 0;
-        while (!stack.isEmpty()){
-            int current = stack.peek();
-            visited.put(current, true);
-            boolean allVisited = true;
-            List<Integer> neighbours = adjList.getOrDefault(current, new ArrayList<>());
-            for (int j = 0; j < neighbours.size(); j++) {
-                int neigh =  neighbours.get(j);
-                if(visited.containsKey(neigh)){
-                    if(isGrandFather(neigh, stack)){
-                        cycle++;
-                    }
-                } else {
-                    allVisited = false;
-                    stack.push(neigh);
-                    break;
-                }
-            }
-            if(allVisited){
-                stack.pop();
-            }
-        }
-        return cycle;
-    }
-
-    private static boolean isGrandFather(int neigh, Stack<Integer> stack) {
-        boolean isGreatGrandFather = false;
-        int parent = stack.pop();
-        if(!stack.isEmpty()){
-            int grand  = stack.pop();
-            if(!stack.isEmpty()){
-                int greatGrand = stack.pop();
-                isGreatGrandFather = greatGrand == neigh;
-                stack.push(greatGrand);
-            }
-            stack.push(grand);
-        }
-        stack.push(parent);
-        return isGreatGrandFather;
+       return -1;
     }
 
     @ParameterizedTest
