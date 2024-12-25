@@ -14,7 +14,7 @@ package heap.must;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import util.IntervalParser;
+import util.StringParser;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -53,7 +53,7 @@ public class MeetingRoomII {
             "[2,4],[3,5][9,13][9,11],[10,11]|3"
     })
     void test(String meetingsStr, int expected){
-        int[][] meetings = IntervalParser.parseIntArrayString(meetingsStr, "\\[\\d+,\\d+\\]");
+        int[][] meetings = StringParser.parseIntArrayString(meetingsStr, "\\[\\d+,\\d+\\]");
         Assertions.assertEquals(expected, findSets(meetings));
     }
 }
