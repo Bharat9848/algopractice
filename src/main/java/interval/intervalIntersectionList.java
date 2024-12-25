@@ -3,7 +3,7 @@ package interval;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import util.IntervalParser;
+import util.StringParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,9 +92,9 @@ public class intervalIntersectionList {
             "[[2,6],[7,9],[10,13],[14,19],[20,24]]|[[1,4],[6,8],[15,18]]|[[2,4],[6,6],[7,8],[15,18]]]"
     })
     void test(String intervalAStr, String intervalBStr, String expectedStr){
-        int[][] intervalA = IntervalParser.parseIntArrayString(intervalAStr, "(\\[\\d+,\\d+\\])");
-        int[][] intervalB = IntervalParser.parseIntArrayString(intervalAStr, "(\\[\\d+,\\d+\\])");
-        int[][] expected = IntervalParser.parseIntArrayString(intervalAStr, "(\\[\\d+,\\d+\\])");
+        int[][] intervalA = StringParser.parseIntArrayString(intervalAStr, "(\\[\\d+,\\d+\\])");
+        int[][] intervalB = StringParser.parseIntArrayString(intervalAStr, "(\\[\\d+,\\d+\\])");
+        int[][] expected = StringParser.parseIntArrayString(intervalAStr, "(\\[\\d+,\\d+\\])");
         Assertions.assertArrayEquals(expected, intervalsIntersection(intervalA, intervalB));
     }
 }
