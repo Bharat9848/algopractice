@@ -1,4 +1,4 @@
-package sliding.window;
+package sliding.window.must;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,6 +16,10 @@ import java.util.regex.Pattern;
  * 11 ≤≤ nums.length ≤≤ 103103
  * 11 ≤≤ nums[i] ≤≤ 103103
  */
+
+/**
+ * maintain current window sum if its smalller than target then increase the right pointer. if adding new number makes the window equal to target then we calculate min window. If adding a new number will increase the sum then we have to remove the numbers from the left which is equivalent of the new number or min sum which is max of it.
+ */
 public class MinLengthSubArraySum {
     public int minSubArrayLen(int target, int[] nums) {
         if (nums == null || nums.length < 1) {
@@ -24,34 +28,31 @@ public class MinLengthSubArraySum {
         }
         int l = 0, r = 0;
         int currentSum = 0;
-        for (; r < nums.length && currentSum < target; r++) {
-            currentSum = currentSum + nums[r];
-        }
-        if(r == nums.length && currentSum < target) {
-            return 0;
-        }
-        r = r-1;
-        while (currentSum >= target) {
-            currentSum = currentSum - nums[l];
-            l++;
-        }
-        l = l - 1;
-        currentSum = currentSum + nums[l];
-        int minLength = r - l + 1;
-        for (int i = r+1; i < nums.length; i++) {
-            currentSum = currentSum + nums[i];
-            while (currentSum >= target) {
-                currentSum = currentSum - nums[l];
-                l++;
-            }
-            l = l - 1;
-            currentSum = currentSum + nums[l];
+        int minLength = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            int current = nums[i];
+            if(currentSum + current < target){
+                currentSum += current;
+            } else if (currentSum + current == target) {
+                currentSum = target;
+                minLength = Math.min(minLength, i - l + 1);
+            } else {
+                currentSum += current;
+                minLength = Math.min(minLength, i-l+1);
+                for (int j = l; j < i; j++) {
+                    currentSum -= nums[j];
+                    if(currentSum >= target){
+                        minLength = Math.min(minLength, i-(j+1)+1);
+                    } else {
+                        l = j+1;
+                        break;
+                    }
+                }
 
-            if (i - l + 1 < minLength) {
-                minLength = i - l + 1;
             }
+
         }
-        return minLength;
+        return minLength == Integer.MAX_VALUE ? 0: minLength;
     }
 
     @ParameterizedTest
