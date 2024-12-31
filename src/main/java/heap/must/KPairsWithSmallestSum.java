@@ -61,7 +61,7 @@ public class KPairsWithSmallestSum {
     void test(String list1Str, String list2Str, int target, String expectedListStr){
         int[] list1 = Arrays.stream(list1Str.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
         int[] list2 = Arrays.stream(list2Str.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
-        List<List<Integer>> expectedList = StringParser.parseStringAsListOfList(expectedListStr,"\\[\\d+,( )?\\d+\\]");
+        List<List<Integer>> expectedList = StringParser.parseStringAsListOfList(expectedListStr,"\\[\\d+,( )?\\d+\\]", Integer::parseInt);
         Assertions.assertEquals(expectedList, kSmallestPairs(list1, list2, target));
     }
 

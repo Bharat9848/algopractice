@@ -63,7 +63,7 @@ public class KthSmallestElement {
             "[10,20,30],[1,2,3000]|4|20",
     })
     void test(String listsStr, int k, int expected){
-        List<List<Integer>> lists = StringParser.parseStringAsListOfList(listsStr,"\\[(\\d+,)*\\d+\\]");
+        List<List<Integer>> lists = StringParser.parseStringAsListOfList(listsStr,"\\[(\\d+,)*\\d+\\]", Integer::parseInt);
         Assertions.assertEquals(expected, kSmallestNumber(lists, k));
     }
 }
