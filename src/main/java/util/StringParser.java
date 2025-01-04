@@ -2,6 +2,7 @@ package util;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 public class StringParser {
@@ -18,14 +19,14 @@ public class StringParser {
                 .toArray(int[][]::new);
     }
 
-    public static List<List<Integer>> parseStringAsListOfList(String arrStr, String regex) {
+    public static <T> List<List<T>> parseStringAsListOfList(String arrStr, String regex, Function<String, T> transformer) {
         var pattern = Pattern.compile(regex);
         var matcher = pattern.matcher(arrStr);
         return matcher.results()
                 .map(matchResult -> matcher.group())
                 .map(row -> {
                             var tokens = row.replace("[", "").replace("]", "").split(",");
-                            return Arrays.stream(tokens).map(String::trim).map(ch -> Integer.parseInt(ch)).toList();
+                            return Arrays.stream(tokens).map(String::trim).map(ch -> transformer.apply(ch)).toList();
                         }
                 )
                 .toList();

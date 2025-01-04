@@ -1,4 +1,4 @@
-package topological.sort;
+package topological.sort.easy;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
