@@ -1,4 +1,4 @@
-package matrix;
+package matrix.must;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
