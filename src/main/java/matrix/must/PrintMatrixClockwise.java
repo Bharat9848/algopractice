@@ -1,4 +1,4 @@
-package matrix;
+package matrix.must;
 
 /**
  * TODO This problem was asked by Amazon.
@@ -36,4 +36,5 @@ package matrix;
  * 12
  */
 public class PrintMatrixClockwise {
+    //see SpiralPrint.java
 }
