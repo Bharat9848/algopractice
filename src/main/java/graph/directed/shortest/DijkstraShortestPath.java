@@ -1,4 +1,4 @@
-package graph;
+package graph.directed.shortest;
 
 import core.ds.Graph;
 import core.ds.Graph.Edge;
@@ -16,17 +16,17 @@ import static java.lang.Boolean.TRUE;
 public class DijkstraShortestPath {
 
     public Pair<Integer[], Integer[]> shortestPathAll(List<Edge>[] edges, int source, int noOfVertices) {
-        Integer[] result = new Integer[noOfVertices];
+        Integer[] minPathFromIndexedNode = new Integer[noOfVertices];
         Integer[] parent = new Integer[noOfVertices];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = Integer.MAX_VALUE;
+        for (int i = 0; i < minPathFromIndexedNode.length; i++) {
+            minPathFromIndexedNode[i] = Integer.MAX_VALUE;
             parent[i] = -1;
         }
         Boolean[] inTree = new Boolean[noOfVertices];
         for (int i = 0; i < inTree.length; i++) {
             inTree[i] = FALSE;
         }
-        result[source] = 0;
+        minPathFromIndexedNode[source] = 0;
         parent[source] = source;
         int candidate = source;
         while (!inTree[candidate]){
@@ -35,21 +35,21 @@ public class DijkstraShortestPath {
             for (Edge edge: edges[candidate]) {
                 int destination = edge.destination;
                 int weight = edge.weight;
-                if(!inTree[destination] && result[destination] > (result[candidate] + weight)){
-                    result[destination] = result[candidate] + weight;
+                if(!inTree[destination] && minPathFromIndexedNode[destination] > (minPathFromIndexedNode[candidate] + weight)){
+                    minPathFromIndexedNode[destination] = minPathFromIndexedNode[candidate] + weight;
                     parent[destination] = candidate;
                 }
             }
 
             int min = Integer.MAX_VALUE;
-            for (int i = 0; i < result.length; i++) {
-                if(!inTree[i] && min > result[i]){
-                    min = result[i];
+            for (int i = 0; i < minPathFromIndexedNode.length; i++) {
+                if(!inTree[i] && min > minPathFromIndexedNode[i]){
+                    min = minPathFromIndexedNode[i];
                     candidate = i;
                 }
             }
         }
-        return new Pair<Integer[], Integer[]>(result,parent);
+        return new Pair<Integer[], Integer[]>(minPathFromIndexedNode,parent);
     }
 
     @Test
