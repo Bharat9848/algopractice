@@ -126,6 +126,7 @@ public class P815BusRoutes {
 
     @ParameterizedTest
     @CsvSource(delimiter = '|', value = {
+            "[[1,2,3],[2,4,5,6,7],[3,8]]|1|6|2",
             "[[]]|2|4|-1",
             "[[2]]|2|2|0",
             "[[1]]|1|5|-1",

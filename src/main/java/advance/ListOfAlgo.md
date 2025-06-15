@@ -7,4 +7,5 @@
 5. Sodku solver
 6. Boyer-Moore Voting Algorithm
 7.  Rabin-Karp algorithm - polynomial rolling hash function
+8. Sorted set implementation using hashmap and skipList
 

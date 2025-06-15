@@ -1,5 +1,38 @@
+Problem patterns
+ - If path exist.
+ - find shortest path.
+ - find if cycle exist in graph
+ - shortest path to all the nodes
+
+
 Problem 1: Given a two-dimensional matrix of black and white entries representing a maze with designated entrance and exit
 points, find a path from the entrance to the exit, if one exists.
 
 Problem 2: How would you efficiently return an array A[O. . .h], where h is the height of the tree and A [i] is the
 head of a linked list of all the nodes in the tree that are at height i?
+
+problem3: TODO [wayfair]
+Given a list of pairs of (parent,child)-> [{1,2}, {1,3}, {2,4}, {4,0}, {3,5}, {8, 6}, {6,7}, {6,9}]
+Find the closest ancestor of the node. Ancestor is a node with no parents.For example -> 1) given a node 0, ancestor is 1 (only 1 ancestor)
+2) given a node 7 , ancestor is 8 (It was 2 ancestors 8 and 1 ). Closest one is 8.
+
+
+
+coding ques: add 2 string numbers followed up with formatting the output to add commas.
+OOPs: Design bike rental app: ran out of time in this, make sure u practice class diagrams
+system design: design check-in app, user can check in the location whatever he visits.:
+
+App Design:
+Automated parking garage
+
+Coding:
+IsPalindrome
+LongestPalindrome as second variation which returns the longest palindrome in a given string or an array of strings if there are multiple of the same length.
+
+Behavioral:
+Focused on team building and leadership. Explain a time when.. questions.
+Try to answer in STAR format. They want specific examples and no generic answers
+
+System Design:
+Shazam
+
