@@ -37,8 +37,9 @@ import java.util.Arrays;
 
 /**
  *  ## key insights
- *   - Visualization helped - challenge is whether we can ignore i or i-1 and continue checking next number to either i and i-1. Draw all possible cases diagram.
+ *   - check the adjacent digits if the next one is smaller than current one. accept first violation. break early on second violation. But challenge is whether we can ignore i or i-1 and continue checking next number to either number i and number i-1 perspective . Two possible scenarios are imagine digits are in increasing order then change one digit one in b/w to go up and in other case it to go down.
  *   - Done number of iterations to reach at final solution
+ *   - Visualization helped
  *
  *  ## space complexity
  *  ## Time complexity
